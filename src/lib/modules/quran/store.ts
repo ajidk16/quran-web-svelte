@@ -1,12 +1,12 @@
 import { writable } from 'svelte/store';
-import type { QuranAyatData, Surah } from './types';
+import type { QuranAyatDto, Surah } from './types';
 
 export type QuranState = {
 	loading: boolean;
 	error: string | null;
 	surahs: Surah[];
 	surah: Surah | null;
-	detailSurah: QuranAyatData[];
+	detailSurah: QuranAyatDto[];
 };
 
 const STORAGE_KEY = 'quranStore';

@@ -4,12 +4,12 @@
 	import Badge from '$lib/components/ui/badge.svelte';
 	import { BookOpenText, Box } from '@lucide/svelte';
 
-	export let sort: string;
+	export let sort: number;
 	export let name: string;
 	export let name_short: string;
 	export let translation: string;
 	export let revelation: string;
-	export let ayat: string;
+	export let ayat: number;
 
 	let className = '';
 	export { className as class };
@@ -21,17 +21,17 @@
 		className
 	)}
 >
-	<section class="flex gap-x-2">
-		<div class="relative inline-block">
-			<img src={Number} alt="number" class="block max-w-full h-auto" width="50" height="50" />
-			<div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
-				<p class="text-sm font-bold text-black drop-shadow-lg p-2">{sort}</p>
+	<section class="flex items-center gap-x-4">
+		<div class="relative flex-shrink-0">
+			<img src={Number} alt="number" class="block w-12 h-12" width="48" height="48" />
+			<div class="absolute inset-0 flex items-center justify-center">
+				<p class="text-base font-bold text-black drop-shadow p-1">{sort}</p>
 			</div>
 		</div>
-		<div class="text-left">
-			<span class="font-bold text-sm">{name}</span>
-			<span class="text-xs text-primary">({translation})</span>
-			<div class="flex gap-x-2 mt-1">
+		<div class="flex flex-col justify-center text-left">
+			<span class="font-bold text-base text-black">{name}</span>
+			<span class="text-xs text-primary mt-0.5">({translation})</span>
+			<div class="flex gap-x-2 mt-2">
 				<Badge text={revelation} size="sm" color="gray" icon={Box} />
 				<Badge text={`${ayat} ayat`} size="sm" color="gray" icon={BookOpenText} />
 			</div>

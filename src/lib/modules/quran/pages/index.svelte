@@ -26,7 +26,7 @@
 
 	const onHandle = (data: Surah) => {
 		updateQuran({ surah: data });
-		goto(`/quran/${data.number}`);
+		goto(`/quran/${data.nomor}`);
 	};
 
 	// Reactive statement agar log muncul setiap surahs berubah
@@ -99,12 +99,12 @@
 					class="group cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl"
 				>
 					<Card
-						sort={surah.number}
-						name={surah.name_id}
-						name_short={surah.name_short}
-						translation={surah.translation_id}
-						revelation={surah.revelation_id}
-						ayat={surah.number_of_verses}
+						sort={surah.nomor}
+						name={surah.namaLatin}
+						name_short={surah.nama}
+						translation={surah.arti}
+						revelation={surah.tempatTurun}
+						ayat={surah.jumlahAyat}
 						class="h-full bg-gradient-to-br from-white to-gray-50 border-2 border-transparent group-hover:border-emerald-200 group-hover:shadow-lg transition-all duration-300"
 					/>
 				</button>

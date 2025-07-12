@@ -4,6 +4,7 @@
 	import { cn } from '$lib/utils';
 	import type { QuranDataDto } from '../types';
 	import ShareModal from '$lib/modules/quran/components/ShareModal.svelte';
+	import { quranSettings } from '$modules/settings/services';
 
 	export let ayat: any;
 	export let surah: QuranDataDto | null = null;
@@ -36,9 +37,7 @@
 	id="ayat-{ayat.nomorAyat}"
 	class={cn(
 		'bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden hover:shadow-2xl transition-all duration-300 scroll-mt-8',
-		playingAyat === ayat.nomorAyat
-			? 'border-emerald-400 shadow-emerald-200'
-			: 'border-white/50',
+		playingAyat === ayat.nomorAyat ? 'border-emerald-400 shadow-emerald-200' : 'border-white/50',
 		selectedAyat === ayat.nomorAyat ? 'border-emerald-500 shadow-emerald-300' : ''
 	)}
 >
@@ -63,15 +62,9 @@
 							class="w-[18px] h-[18px] border-2 border-white border-t-transparent rounded-full animate-spin"
 						></div>
 					{:else if playingAyat === ayat.nomorAyat}
-						<Pause
-							size={18}
-							class="text-white group-hover:scale-110 transition-transform"
-						/>
+						<Pause size={18} class="text-white group-hover:scale-110 transition-transform" />
 					{:else}
-						<Play
-							size={18}
-							class="text-white group-hover:scale-110 transition-transform"
-						/>
+						<Play size={18} class="text-white group-hover:scale-110 transition-transform" />
 					{/if}
 				</button>
 				<button
@@ -85,85 +78,69 @@
 					class="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200 group"
 					aria-label="Bookmark ayat {ayat.nomorAyat}"
 				>
-					<Bookmark
-						size={18}
-						class="text-white group-hover:scale-110 transition-transform"
-					/>
+					<Bookmark size={18} class="text-white group-hover:scale-110 transition-transform" />
 				</button>
 				<button
 					onclick={shareAyat}
 					class="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200 group"
 					aria-label="Bagikan ayat {ayat.nomorAyat}"
 				>
-					<Share
-						size={18}
-						class="text-white group-hover:scale-110 transition-transform"
-					/>
+					<Share size={18} class="text-white group-hover:scale-110 transition-transform" />
 				</button>
 			</div>
 		</div>
 	</div>
 
 	<!-- Ayat Content -->
-	<div class="p-8">
+	<div id="ayat-content-{ayat.nomorAyat}" class="p-8">
 		<!-- Arabic Text -->
-		<div class="text-right mb-8">
-			<p
-				class="text-3xl md:text-4xl leading-relaxed font-arabic text-gray-900 mb-4"
-				dir="rtl"
-			>
-				{ayat.teksArab}
-			</p>
-			<div
-				class="w-full h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent"
-			></div>
-		</div>
+		{#if $quranSettings.showArabicText}
+			<div id="ayat-arabic-{ayat.nomorAyat}" class="text-right mb-8">
+				<p class="text-3xl md:text-4xl leading-relaxed font-arabic text-gray-900 mb-4" dir="rtl">
+					{ayat.teksArab}
+				</p>
+				<div
+					class="w-full h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent"
+				></div>
+			</div>
+		{/if}
 
 		<!-- Latin Transliteration -->
-		<div class="mb-6">
-			<div class="flex items-center mb-3">
-				<div
-					class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mr-3"
-				>
-					<div class="w-2 h-2 bg-emerald-600 rounded-full"></div>
+		{#if $quranSettings.showTransliteration}
+			<div id="ayat-latin-{ayat.nomorAyat}" class="mb-6">
+				<div class="flex items-center mb-3">
+					<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
+						<div class="w-2 h-2 bg-emerald-600 rounded-full"></div>
+					</div>
+					<p class="text-sm text-emerald-700 uppercase tracking-wide font-semibold">
+						Transliterasi
+					</p>
 				</div>
-				<p class="text-sm text-emerald-700 uppercase tracking-wide font-semibold">
-					Transliterasi
+				<p class="text-lg italic text-gray-700 leading-relaxed bg-emerald-50 p-4 rounded-xl">
+					{ayat.teksLatin}
 				</p>
 			</div>
-			<p
-				class="text-lg italic text-gray-700 leading-relaxed bg-emerald-50 p-4 rounded-xl"
-			>
-				{ayat.teksLatin}
-			</p>
-		</div>
+		{/if}
 
 		<!-- Indonesian Translation -->
-		<div>
-			<div class="flex items-center mb-3">
-				<div
-					class="w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center mr-3"
-				>
-					<div class="w-2 h-2 bg-teal-600 rounded-full"></div>
+		{#if $quranSettings.showTranslation}
+			<div id="ayat-translation-{ayat.nomorAyat}">
+				<div class="flex items-center mb-3">
+					<div class="w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center mr-3">
+						<div class="w-2 h-2 bg-teal-600 rounded-full"></div>
+					</div>
+					<p class="text-sm text-teal-700 uppercase tracking-wide font-semibold">Terjemahan</p>
 				</div>
-				<p class="text-sm text-teal-700 uppercase tracking-wide font-semibold">
-					Terjemahan
+				<p class="text-lg text-gray-800 leading-relaxed bg-teal-50 p-4 rounded-xl">
+					{ayat.teksIndonesia}
 				</p>
 			</div>
-			<p class="text-lg text-gray-800 leading-relaxed bg-teal-50 p-4 rounded-xl">
-				{ayat.teksIndonesia}
-			</p>
-		</div>
+		{/if}
 	</div>
 </div>
 
 <!-- Share Modal -->
-<ShareModal 
-	show={showShareModal}
-	{ayat}
-	{surah}
-	on:close={closeShareModal}
-/>
+<ShareModal show={showShareModal} {ayat} {surah} on:close={closeShareModal} />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');

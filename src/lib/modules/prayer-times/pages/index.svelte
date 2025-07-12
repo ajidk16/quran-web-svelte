@@ -12,10 +12,7 @@
 	import type { SelectedCity } from '../utils/location';
 	import CitySearchModal from '../components/CitySearchModal.svelte';
 	import PrayerCard from '../components/PrayerCard.svelte';
-	import AdzanSettings from '../components/AdzanSettings.svelte';
-	import AdzanService from '../components/AdzanService.svelte';
-	import AdzanDebug from '../components/AdzanDebug.svelte';
-	import AdzanDemo from '$lib/components/AdzanDemo.svelte';
+	import { AdzanSettings, AdzanService, AdzanDebug } from '$lib/modules/settings';
 	import { MapPin, RefreshCw, Clock, Search, Navigation } from '@lucide/svelte';
 	import { cn } from '$lib/utils';
 
@@ -98,8 +95,7 @@
 		<div class="flex items-center justify-between mb-6">
 			<h1 class="text-3xl font-bold text-gray-800">🕌 Jadwal Sholat</h1>
 			<div class="flex items-center gap-3">
-				<!-- Adzan Settings -->
-				<AdzanSettings />
+				
 
 				<!-- Refresh Button -->
 				{#if $prayerSelectedCity}
@@ -115,9 +111,6 @@
 				{/if}
 			</div>
 		</div>
-
-		<!-- Adzan Demo (for testing) -->
-		<AdzanDemo />
 
 		<div class="bg-white rounded-lg shadow-md overflow-hidden">
 			<!-- Location Header -->

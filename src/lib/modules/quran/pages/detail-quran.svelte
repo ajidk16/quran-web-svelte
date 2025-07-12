@@ -44,7 +44,19 @@
 		const el = document.getElementById(`ayat-${ayatNum}`);
 		if (el) {
 			selectedAyat = ayatNum;
-			el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
+			
+			// Get header height dynamically
+			const header = document.querySelector('header') || document.querySelector('.header');
+			const headerHeight = header ? header.offsetHeight + 32 : 132; // +32 for mt-8
+			
+			const elementPosition = el.offsetTop - headerHeight;
+			
+			// Scroll dengan offset yang tepat agar ayat berada di bawah header dengan mt-8
+			window.scrollTo({
+				top: Math.max(0, elementPosition),
+				behavior: 'smooth'
+			});
+			
 			el.classList.add('highlight-ayat');
 			setTimeout(() => el.classList.remove('highlight-ayat'), 2000);
 		}

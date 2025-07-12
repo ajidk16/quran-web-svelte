@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { nextAdzanInfo, adzanSettings, playAdzan, playTestTone } from '../services/adzan';
 	import { onMount } from 'svelte';
+	import { adzanInfo, checkAndPlayAdzan } from '../adzan';
+	import { adzanSettings, updateAdzanSettings } from '../services';
 
 	let currentTime = $state('');
 	let debugInfo = $state<any>(null);
@@ -9,7 +10,7 @@
 		const updateTime = () => {
 			const now = new Date();
 			currentTime = now.toLocaleTimeString();
-			debugInfo = $nextAdzanInfo;
+			debugInfo = $adzanInfo;
 		};
 
 		updateTime();
@@ -18,37 +19,16 @@
 		return () => clearInterval(interval);
 	});
 
-	async function testAdzan() {
-		try {
-			await playAdzan('Test');
-		} catch (error) {
-			console.error('Error testing adzan:', error);
-		}
-	}
-
-	async function testTone() {
-		try {
-			await playTestTone();
-		} catch (error) {
-			console.error('Error testing tone:', error);
-		}
+	function clearLastPlayed() {
+		updateAdzanSettings({ lastPlayedDate: '' });
 	}
 
 	function setMinutesBefore(minutes: number) {
-		adzanSettings.update(s => ({ ...s, minutesBefore: minutes }));
+		updateAdzanSettings({ minutesBefore: minutes });
 	}
 
-	function clearLastPlayed() {
-		adzanSettings.update(s => ({ ...s, lastPlayedDate: '' }));
-	}
-
-	async function forceTriggerAdzan() {
-		// Force trigger by setting minutesBefore to 0 and clearing last played
+	function forceTrigger() {
 		clearLastPlayed();
-		setMinutesBefore(0);
-		
-		// Import and call checkAndPlayAdzan directly
-		const { checkAndPlayAdzan } = await import('../services/adzan');
 		setTimeout(() => {
 			console.log('🔥 Force triggering adzan check...');
 			checkAndPlayAdzan();
@@ -57,14 +37,16 @@
 </script>
 
 <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg text-sm font-mono">
-	<h3 class="font-bold mb-2">🐛 Adzan Debug Info</h3>
+	<h3 class="font-bold mb-2">🐛 Adzan Debug Info (Settings Module)</h3>
 	
 	<div class="space-y-1">
 		<div><strong>Current Time:</strong> {currentTime}</div>
 		<div><strong>Adzan Enabled:</strong> {$adzanSettings.enabled ? '✅' : '❌'}</div>
 		<div><strong>Minutes Before:</strong> {$adzanSettings.minutesBefore}</div>
 		<div><strong>Volume:</strong> {Math.round($adzanSettings.volume * 100)}%</div>
+		<div><strong>Notifications:</strong> {$adzanSettings.notificationEnabled ? '✅' : '❌'}</div>
 		<div><strong>Last Played:</strong> {$adzanSettings.lastPlayedDate || 'None'}</div>
+		<div><strong>Muted Prayers:</strong> {$adzanSettings.mutedPrayers.join(', ') || 'None'}</div>
 	</div>
 
 	{#if debugInfo}
@@ -79,7 +61,7 @@
 				</span>
 			</div>
 			{#if debugInfo.isNextDay}
-				<div class="text-blue-600"><strong>Next Day:</strong> Yes (tomorrow's Subuh)</div>
+				<div class="text-blue-600"><strong>Next Day:</strong> Yes (tomorrow)</div>
 			{/if}
 		</div>
 	{:else}
@@ -88,32 +70,20 @@
 		</div>
 	{/if}
 
-	<!-- Test Buttons -->
+	<!-- Quick Controls -->
 	<div class="mt-4 pt-3 border-t border-gray-300 dark:border-gray-600">
 		<div class="flex gap-2 mb-2">
 			<button 
-				onclick={testAdzan}
-				class="px-3 py-1 bg-green-600 text-white rounded text-xs hover:bg-green-700"
+				onclick={forceTrigger}
+				class="px-3 py-1 bg-orange-600 text-white rounded text-xs hover:bg-orange-700"
 			>
-				🕌 Test Adzan Audio
-			</button>
-			<button 
-				onclick={testTone}
-				class="px-3 py-1 bg-blue-600 text-white rounded text-xs hover:bg-blue-700"
-			>
-				🔊 Test Tone
+				🔥 Force Trigger
 			</button>
 			<button 
 				onclick={clearLastPlayed}
 				class="px-3 py-1 bg-red-600 text-white rounded text-xs hover:bg-red-700"
 			>
 				🗑 Clear Last Played
-			</button>
-			<button 
-				onclick={forceTriggerAdzan}
-				class="px-3 py-1 bg-orange-600 text-white rounded text-xs hover:bg-orange-700"
-			>
-				🔥 Force Trigger
 			</button>
 		</div>
 		<div class="flex gap-2">

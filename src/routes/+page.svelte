@@ -3,7 +3,7 @@
 	<section class="text-center py-12 bg-gradient-to-r from-emerald-600 to-emerald-800 text-white rounded-lg mb-12">
 		<h1 class="text-4xl md:text-6xl font-bold mb-4">QuranWeb</h1>
 		<p class="text-xl md:text-2xl mb-8 opacity-90">Read, Study, and Reflect on the Holy Quran</p>
-		<div class="flex flex-col sm:flex-row gap-4 justify-center">
+		<div class="flex flex-col sm:flex-row gap-4 justify-center mx-4">
 			<a href="/quran" class="bg-white text-emerald-800 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
 				Start Reading
 			</a>

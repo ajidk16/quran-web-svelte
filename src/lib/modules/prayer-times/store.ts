@@ -7,7 +7,9 @@ export {
 	isLoading,
 	error,
 	isDataFresh,
-	currentPrayer
+	currentPrayer,
+	currentTime,
+	nextPrayerCountdown
 } from './stores/base';
 
 // Export actions
@@ -22,7 +24,9 @@ export {
 	isLoading as prayerIsLoading,
 	error as prayerError,
 	isDataFresh as prayerIsDataFresh,
-	currentPrayer as prayerCurrentInfo
+	currentPrayer as prayerCurrentInfo,
+	currentTime as prayerCurrentTime,
+	nextPrayerCountdown as prayerNextCountdown
 } from './stores/base';
 
 // Export types

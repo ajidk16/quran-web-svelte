@@ -80,6 +80,14 @@
 			const data = await fetchSurahBySlug(slug);
 			surah = data.data;
 			selectedAyat = 1;
+			
+			// Handle URL hash after surah is loaded
+			if (browser) {
+				// Use setTimeout to ensure DOM is updated
+				setTimeout(() => {
+					handleUrlHash();
+				}, 200);
+			}
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Error loading surah';
 		} finally {
@@ -257,6 +265,29 @@
 		}
 	}
 
+	// Function to handle URL hash fragment for auto-scroll
+	function handleUrlHash() {
+		if (!browser || !surah?.ayat) return;
+
+		const hash = window.location.hash;
+		if (hash.startsWith('#ayat-')) {
+			const ayatNumber = parseInt(hash.replace('#ayat-', ''));
+			
+			// Validate ayat number
+			if (ayatNumber >= 1 && ayatNumber <= surah.jumlahAyat) {
+				// Small delay to ensure DOM is rendered
+				setTimeout(() => {
+					scrollToAyat(ayatNumber);
+				}, 100);
+			}
+		}
+	}
+
+	// Function to handle hash change events
+	function handleHashChange() {
+		handleUrlHash();
+	}
+
 	// Component event handlers
 	function handleScrollToAyat(event: CustomEvent) {
 		scrollToAyat(event.detail.ayatNum);
@@ -296,12 +327,14 @@
 		
 		if (browser) {
 			document.addEventListener('keydown', handleKeydown);
+			window.addEventListener('hashchange', handleHashChange);
 		}
 
 		return () => {
 			stopAudio();
 			if (browser) {
 				document.removeEventListener('keydown', handleKeydown);
+				window.removeEventListener('hashchange', handleHashChange);
 			}
 		};
 	});

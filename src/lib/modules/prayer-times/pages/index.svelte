@@ -13,6 +13,8 @@
 	import CitySearchModal from '../components/CitySearchModal.svelte';
 	import PrayerCard from '../components/PrayerCard.svelte';
 	import AdzanSettings from '../components/AdzanSettings.svelte';
+	import AdzanService from '../components/AdzanService.svelte';
+	import AdzanDebug from '../components/AdzanDebug.svelte';
 	import AdzanDemo from '$lib/components/AdzanDemo.svelte';
 	import { MapPin, RefreshCw, Clock, Search, Navigation } from '@lucide/svelte';
 	import { cn } from '$lib/utils';
@@ -115,7 +117,7 @@
 		</div>
 
 		<!-- Adzan Demo (for testing) -->
-		<!-- <AdzanDemo /> -->
+		<AdzanDemo />
 
 		<div class="bg-white rounded-lg shadow-md overflow-hidden">
 			<!-- Location Header -->
@@ -265,6 +267,11 @@
 							</div>
 						</div>
 					{/if}
+
+					<!-- Debug Info -->
+					<div class="mt-6 pt-6 border-t border-gray-200">
+						<AdzanDebug />
+					</div>
 				</div>
 			{:else}
 				<!-- Empty State -->
@@ -279,6 +286,9 @@
 		</div>
 	</div>
 </div>
+
+<!-- Adzan Service Component (Global Service) -->
+<AdzanService />
 
 <CitySearchModal
 	bind:show={showCitySearch}

@@ -1,11 +1,14 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { checkAndPlayAdzan, nextAdzanInfo, adzanSettings } from '../services/adzan';
+	import { checkAndPlayAdzan, nextAdzanInfo, adzanSettings, enableAudioAutoplay } from '../services/adzan';
 	import { prayerSelectedCity } from '../store';
 
 	let interval: NodeJS.Timeout | null = null;
 
 	onMount(() => {
+		// Enable audio autoplay on user interaction
+		enableAudioAutoplay();
+		
 		// Only start if user has selected a city
 		if ($prayerSelectedCity) {
 			startAdzanService();
@@ -34,10 +37,10 @@
 		// Check immediately
 		checkAndPlayAdzan();
 
-		// Check every minute
+		// Check every 30 seconds to avoid missing the window
 		interval = setInterval(() => {
 			checkAndPlayAdzan();
-		}, 60000); // 60 seconds
+		}, 30000); // 30 seconds
 
 		console.log('🕌 Adzan service started');
 	}

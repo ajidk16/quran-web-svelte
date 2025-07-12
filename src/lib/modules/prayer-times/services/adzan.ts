@@ -40,8 +40,52 @@ function initializeAudio() {
 	if (!adzanAudio) {
 		adzanAudio = new Audio('/audio/adzan.mp3');
 		adzanAudio.preload = 'metadata';
+		
+		// Try to enable audio context for autoplay
+		if (!audioContext) {
+			try {
+				audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+				
+				// Resume audio context if suspended
+				if (audioContext.state === 'suspended') {
+					audioContext.resume().catch(console.warn);
+				}
+			} catch (error) {
+				console.warn('AudioContext not supported for adzan audio');
+			}
+		}
 	}
 	return adzanAudio;
+}
+
+// Enable audio on user interaction (to overcome browser restrictions)
+export function enableAudioAutoplay() {
+	if (typeof window === 'undefined') return;
+	
+	const enableAudio = () => {
+		if (audioContext && audioContext.state === 'suspended') {
+			audioContext.resume();
+		}
+		
+		// Test audio element
+		const audio = initializeAudio();
+		if (audio) {
+			audio.play().then(() => {
+				audio.pause();
+				audio.currentTime = 0;
+				console.log('✅ Audio autoplay enabled');
+			}).catch(() => {
+				console.warn('⚠️ Audio autoplay still blocked');
+			});
+		}
+		
+		// Remove listeners after first interaction
+		document.removeEventListener('click', enableAudio);
+		document.removeEventListener('touchstart', enableAudio);
+	};
+	
+	document.addEventListener('click', enableAudio, { once: true });
+	document.addEventListener('touchstart', enableAudio, { once: true });
 }
 
 // Initialize Web Audio Context for test sounds
@@ -87,6 +131,8 @@ export const nextAdzanInfo = derived(
 		const currentTime = now.getHours() * 60 + now.getMinutes();
 		const today = now.toDateString();
 
+		console.log(`🕐 Current time: ${now.toLocaleTimeString()} (${currentTime} minutes)`);
+
 		const jadwal = $prayerScheduleData.data.jadwal;
 		const prayers = [
 			{ name: 'Subuh', time: jadwal.subuh },
@@ -99,22 +145,53 @@ export const nextAdzanInfo = derived(
 		// Convert prayer times to minutes and find next prayer
 		const prayerTimes = prayers.map((prayer) => {
 			const [hours, minutes] = prayer.time.split(':').map(Number);
+			const prayerMinutes = hours * 60 + minutes;
+			const adzanMinutes = prayerMinutes - $adzanSettings.minutesBefore;
+			
+			console.log(`⏱️  ${prayer.name}: ${prayer.time} = ${prayerMinutes} minutes, adzan at ${adzanMinutes} minutes (${Math.floor(adzanMinutes/60)}:${String(adzanMinutes%60).padStart(2, '0')})`);
+			
 			return {
 				...prayer,
-				minutes: hours * 60 + minutes,
-				adzanTime: hours * 60 + minutes - $adzanSettings.minutesBefore
+				minutes: prayerMinutes,
+				adzanTime: adzanMinutes
 			};
 		});
+
+		console.log('📅 Prayer times with adzan schedule:', prayerTimes.map(p => ({
+			name: p.name,
+			time: p.time,
+			adzanTime: p.adzanTime,
+			minutesBefore: $adzanSettings.minutesBefore
+		})));
+
+		// Check each prayer to see if adzan should play now
+		for (const prayer of prayerTimes) {
+			// Allow 10-minute window after adzan time for playback
+			const adzanWindowEnd = prayer.adzanTime + 10;
+			const shouldPlayNow = currentTime >= prayer.adzanTime && currentTime < adzanWindowEnd;
+			
+			if (shouldPlayNow) {
+				console.log(`🕌 Adzan time! Prayer: ${prayer.name}, adzanTime: ${prayer.adzanTime}, currentTime: ${currentTime}, window ends at: ${adzanWindowEnd}`);
+				return {
+					prayer: prayer.name,
+					prayerTime: prayer.time,
+					adzanTime: prayer.adzanTime,
+					minutesUntilAdzan: 0,
+					shouldPlayNow: true
+				};
+			}
+		}
 
 		// Find the next prayer that should have adzan
 		for (const prayer of prayerTimes) {
 			if (currentTime < prayer.adzanTime) {
+				console.log(`⏰ Next prayer: ${prayer.name}, adzanTime: ${prayer.adzanTime}, currentTime: ${currentTime}, minutesUntil: ${prayer.adzanTime - currentTime}`);
 				return {
 					prayer: prayer.name,
 					prayerTime: prayer.time,
 					adzanTime: prayer.adzanTime,
 					minutesUntilAdzan: prayer.adzanTime - currentTime,
-					shouldPlayNow: currentTime >= prayer.adzanTime && currentTime < prayer.minutes
+					shouldPlayNow: false
 				};
 			}
 		}
@@ -142,14 +219,48 @@ export function checkAndPlayAdzan() {
 	const info = get(nextAdzanInfo);
 	const settings = get(adzanSettings);
 	
-	if (!info || !info.shouldPlayNow || !settings.enabled) return;
+	// Add debug logging
+	const now = new Date();
+	const currentTime = now.getHours() * 60 + now.getMinutes();
+	console.log(`🕐 Checking adzan at ${now.toLocaleTimeString()}, current minute: ${currentTime}`);
+	
+	if (!info) {
+		console.log('❌ No next adzan info available - missing prayer data or adzan disabled');
+		return;
+	}
+	
+	console.log(`📋 Adzan info:`, {
+		prayer: info.prayer,
+		adzanTime: info.adzanTime,
+		shouldPlayNow: info.shouldPlayNow,
+		enabled: settings.enabled,
+		minutesUntilAdzan: info.minutesUntilAdzan
+	});
+	
+	if (!info.shouldPlayNow) {
+		console.log(`⏰ Not time yet. Minutes until adzan: ${info.minutesUntilAdzan}`);
+		return;
+	}
+	
+	if (!settings.enabled) {
+		console.log('🔇 Adzan disabled in settings');
+		return;
+	}
 
 	const today = new Date().toDateString();
 	const lastPlayedKey = `${today}-${info.prayer}`;
 	
 	// Check if already played today for this prayer
-	if (settings.lastPlayedDate === lastPlayedKey) return;
+	if (settings.lastPlayedDate === lastPlayedKey) {
+		console.log(`✅ Already played today: ${lastPlayedKey}`);
+		return;
+	}
 
+	console.log(`🕌 TRIGGERING ADZAN for ${info.prayer} at ${now.toLocaleTimeString()}`);
+	
+	// Alert for debugging
+	alert(`🕌 ADZAN TIME! ${info.prayer} - ${now.toLocaleTimeString()}`);
+	
 	playAdzan(info.prayer);
 	
 	// Update last played date
@@ -176,7 +287,9 @@ export async function playAdzan(prayerName: string) {
 		
 		// Check if this is a test call
 		if (prayerName === 'Test') {
-			console.log('🧪 Playing test tone...');
+			console.log('🧪 Playing test adzan...');
+			// Show notification for test
+			showAdzanNotification(prayerName);
 			await playTestTone();
 			return;
 		}
@@ -221,7 +334,7 @@ export async function playAdzan(prayerName: string) {
 }
 
 // Play test tone when real audio file is not available
-async function playTestTone() {
+export async function playTestTone() {
 	try {
 		const toneData = createTestTone(800, 1500); // 800Hz for 1.5 seconds
 		if (!toneData) {

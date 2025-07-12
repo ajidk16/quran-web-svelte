@@ -14,89 +14,92 @@
 	import LoadingSpinner from '../components/LoadingSpinner.svelte';
 	import ErrorMessage from '../components/ErrorMessage.svelte';
 
-	let selectedAyat: number = 1;
-
-	// Filter state for ayat search
-	let searchQuery: string = '';
-	let filteredAyats: any[] = [];
-	let showSearchResults: boolean = false;
-	let showAdvancedFilter: boolean = false;
-	let filterByRange: boolean = false;
-	let rangeStart: number = 1;
-	let rangeEnd: number = 1;
-	let showSearchModal: boolean = false;
-
-	// Navigation state
+	// State variables
+	let selectedAyat = 1;
+	let searchQuery = '';
+	let showSearchResults = false;
+	let showAdvancedFilter = false;
+	let filteredAyats: QuranDataDto['ayat'] = [];
+	let filterByRange = false;
+	let rangeStart = 1;
+	let rangeEnd = 1;
+	let showSearchModal = false;
 	let showQuickNav = false;
-
-	// Surah data
 	let surah: QuranDataDto | null = null;
 	let loading = false;
 	let error: string | null = null;
-
-	// Audio state management
 	let currentAudio: HTMLAudioElement | null = null;
 	let playingAyat: number | null = null;
 	let audioLoading: number | null = null;
 
 	const slug = page.params.slug;
 
-	// Reactive statement to update range end when surah changes
-	$: if (surah?.jumlahAyat) {
-		rangeEnd = surah.jumlahAyat;
-	}
+	// Reactive statements
+	$: if (surah?.jumlahAyat) rangeEnd = surah.jumlahAyat;
+	$: if (playingAyat !== null) scrollToAyat(playingAyat);
 
-	// Auto-scroll to playing ayat
-	$: if (playingAyat !== null) {
-		scrollToAyat(playingAyat);
-	}
-
-	// Scroll to ayat function
-	function scrollToAyat(ayatNum: number) {
+	// Utility functions
+	const scrollToAyat = (ayatNum: number) => {
 		if (!browser) return;
-		
 		const el = document.getElementById(`ayat-${ayatNum}`);
 		if (el) {
 			selectedAyat = ayatNum;
-			el.scrollIntoView({
-				behavior: 'smooth',
-				block: 'center',
-				inline: 'nearest'
-			});
-
-			// Add temporary highlight effect
+			el.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
 			el.classList.add('highlight-ayat');
-			setTimeout(() => {
-				el.classList.remove('highlight-ayat');
-			}, 2000);
+			setTimeout(() => el.classList.remove('highlight-ayat'), 2000);
 		}
-	}
+	};
+
+	const stopAudio = () => {
+		if (currentAudio) {
+			currentAudio.pause();
+			currentAudio = null;
+		}
+		playingAyat = null;
+		audioLoading = null;
+	};
+
+	const clearSearch = () => {
+		searchQuery = '';
+		filteredAyats = [];
+		showSearchResults = false;
+		showAdvancedFilter = false;
+		filterByRange = false;
+		if (surah?.jumlahAyat) {
+			rangeStart = 1;
+			rangeEnd = surah.jumlahAyat;
+		}
+	};
+
+	const handleUrlHash = () => {
+		if (!browser || !surah?.ayat) return;
+		const hash = window.location.hash;
+		if (hash.startsWith('#ayat-')) {
+			const ayatNumber = parseInt(hash.replace('#ayat-', ''));
+			if (ayatNumber >= 1 && ayatNumber <= surah.jumlahAyat) {
+				setTimeout(() => scrollToAyat(ayatNumber), 100);
+			}
+		}
+	};
 
 	// Load surah data
-	async function loadSurah() {
+	const loadSurah = async () => {
 		loading = true;
 		error = null;
 		try {
 			const data = await fetchSurahBySlug(slug);
 			surah = data.data;
 			selectedAyat = 1;
-			
-			// Handle URL hash after surah is loaded
-			if (browser) {
-				// Use setTimeout to ensure DOM is updated
-				setTimeout(() => {
-					handleUrlHash();
-				}, 200);
-			}
+			if (browser) setTimeout(handleUrlHash, 200);
 		} catch (err) {
 			error = err instanceof Error ? err.message : 'Error loading surah';
 		} finally {
 			loading = false;
 		}
-	}
+	};
 
 	// Audio functions
-	async function playAudio(ayatNumber: number, audioUrls: Record<string, string>) {
+	const playAudio = async (ayatNumber: number, audioUrls: Record<string, string>) => {
 		if (currentAudio) {
 			currentAudio.pause();
 			currentAudio = null;
@@ -110,120 +113,53 @@
 		try {
 			audioLoading = ayatNumber;
 			const audioSources = Object.entries(audioUrls);
-			let audioLoaded = false;
-
+			
 			for (const [, url] of audioSources) {
-				if (audioLoaded) break;
-
 				try {
 					currentAudio = new Audio(url);
-
-					currentAudio.addEventListener('loadstart', () => {
-						audioLoading = ayatNumber;
-					});
-
-					currentAudio.addEventListener('canplay', () => {
-						audioLoading = null;
-						playingAyat = ayatNumber;
-					});
-
-					currentAudio.addEventListener('ended', () => {
-						playingAyat = null;
-						currentAudio = null;
-						playNextAyat(ayatNumber);
-					});
-
-					currentAudio.addEventListener('error', () => {
-						audioLoading = null;
-						playingAyat = null;
-						currentAudio = null;
-					});
+					
+					currentAudio.addEventListener('loadstart', () => audioLoading = ayatNumber);
+					currentAudio.addEventListener('canplay', () => { audioLoading = null; playingAyat = ayatNumber; });
+					currentAudio.addEventListener('ended', () => { playingAyat = null; currentAudio = null; playNextAyat(ayatNumber); });
+					currentAudio.addEventListener('error', () => { audioLoading = null; playingAyat = null; currentAudio = null; });
 
 					await currentAudio.play();
-					audioLoaded = true;
+					break;
 				} catch (err) {
 					continue;
 				}
-			}
-
-			if (!audioLoaded) {
-				throw new Error('Tidak dapat memuat audio dari semua sumber');
 			}
 		} catch (err) {
 			audioLoading = null;
 			playingAyat = null;
 		}
-	}
+	};
 
-	function playNextAyat(currentAyatNumber: number) {
+	const playNextAyat = (currentAyatNumber: number) => {
 		if (!surah?.ayat) return;
-
 		const nextAyat = surah.ayat.find((ayat) => ayat.nomorAyat === currentAyatNumber + 1);
+		if (nextAyat) setTimeout(() => playAudio(nextAyat.nomorAyat, nextAyat.audio), 1000);
+	};
 
-		if (nextAyat) {
-			setTimeout(() => {
-				playAudio(nextAyat.nomorAyat, nextAyat.audio);
-			}, 1000);
-		}
-	}
-
-	function stopAudio() {
-		if (currentAudio) {
-			currentAudio.pause();
-			currentAudio = null;
-		}
-		playingAyat = null;
-		audioLoading = null;
-	}
-
-	async function copyAyat(ayat: any) {
+	// Copy ayat function
+	const copyAyat = async (ayat: any) => {
 		if (!browser) return;
-		
 		try {
-			// Determine the base URL based on environment
-			let baseUrl;
-			baseUrl = window.location.origin;
-
-			const currentUrl = baseUrl + window.location.pathname + `#ayat-${ayat.nomorAyat}`;
-			const textToCopy = `🕌 ${surah?.namaLatin} - Ayat ${ayat.nomorAyat}
-
-📖 ${ayat.teksArab}
-
-📝 ${ayat.teksLatin}
-
-🇮🇩 ${ayat.teksIndonesia}
-
-🔗 ${currentUrl}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-💚 Dibagikan melalui Al-Quran Digital
-🤲 Semoga bermanfaat dan mendapat berkah`;
+			const currentUrl = `${window.location.origin}${window.location.pathname}#ayat-${ayat.nomorAyat}`;
+			const textToCopy = `🕌 ${surah?.namaLatin} - Ayat ${ayat.nomorAyat}\n\n📖 ${ayat.teksArab}\n\n📝 ${ayat.teksLatin}\n\n🇮🇩 ${ayat.teksIndonesia}\n\n🔗 ${currentUrl}\n\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n💚 Dibagikan melalui Al-Quran Digital\n🤲 Semoga bermanfaat dan mendapat berkah`;
 			await navigator.clipboard.writeText(textToCopy);
 		} catch (err) {
 			console.error('Failed to copy:', err);
 		}
-	}
+	};
 
 	// Navigation functions
-	function scrollToTop() {
-		if (!browser) return;
-		window.scrollTo({ top: 0, behavior: 'smooth' });
-	}
-
-	function scrollToNextAyat() {
-		if (selectedAyat < (surah?.jumlahAyat ?? 0)) {
-			scrollToAyat(selectedAyat + 1);
-		}
-	}
-
-	function scrollToPrevAyat() {
-		if (selectedAyat > 1) {
-			scrollToAyat(selectedAyat - 1);
-		}
-	}
+	const scrollToTop = () => browser && window.scrollTo({ top: 0, behavior: 'smooth' });
+	const scrollToNextAyat = () => selectedAyat < (surah?.jumlahAyat ?? 0) && scrollToAyat(selectedAyat + 1);
+	const scrollToPrevAyat = () => selectedAyat > 1 && scrollToAyat(selectedAyat - 1);
 
 	// Keyboard navigation
-	function handleKeydown(event: KeyboardEvent) {
+	const handleKeydown = (event: KeyboardEvent) => {
 		if (event.ctrlKey || event.metaKey) {
 			if (event.key === 'g') {
 				event.preventDefault();
@@ -247,79 +183,19 @@
 			}
 		}
 
-		if (event.key === 'Escape' && searchQuery) {
-			clearSearch();
-		}
-	}
+		if (event.key === 'Escape' && searchQuery) clearSearch();
+	};
 
-	// Function to clear search
-	function clearSearch() {
-		searchQuery = '';
-		filteredAyats = [];
-		showSearchResults = false;
-		showAdvancedFilter = false;
-		filterByRange = false;
-		if (surah?.jumlahAyat) {
-			rangeStart = 1;
-			rangeEnd = surah.jumlahAyat;
-		}
-	}
-
-	// Function to handle URL hash fragment for auto-scroll
-	function handleUrlHash() {
-		if (!browser || !surah?.ayat) return;
-
-		const hash = window.location.hash;
-		if (hash.startsWith('#ayat-')) {
-			const ayatNumber = parseInt(hash.replace('#ayat-', ''));
-			
-			// Validate ayat number
-			if (ayatNumber >= 1 && ayatNumber <= surah.jumlahAyat) {
-				// Small delay to ensure DOM is rendered
-				setTimeout(() => {
-					scrollToAyat(ayatNumber);
-				}, 100);
-			}
-		}
-	}
-
-	// Function to handle hash change events
-	function handleHashChange() {
-		handleUrlHash();
-	}
-
-	// Component event handlers
-	function handleScrollToAyat(event: CustomEvent) {
-		scrollToAyat(event.detail.ayatNum);
-	}
-
-	function handlePlayAudio(event: CustomEvent) {
-		playAudio(event.detail.ayatNumber, event.detail.audioUrls);
-	}
-
-	function handleCopyAyat(event: CustomEvent) {
-		copyAyat(event.detail.ayat);
-	}
-
-	function handleOpenSearchModal() {
-		showSearchModal = true;
-	}
-
-	function handleOpenQuickNav() {
-		showQuickNav = true;
-	}
-
-	function handleCloseSearchModal() {
-		showSearchModal = false;
-	}
-
-	function handleCloseQuickNav() {
-		showQuickNav = false;
-	}
-
-	function handleClearSearch() {
-		clearSearch();
-	}
+	// Event handlers
+	const handleScrollToAyat = (event: CustomEvent) => scrollToAyat(event.detail.ayatNum);
+	const handlePlayAudio = (event: CustomEvent) => playAudio(event.detail.ayatNumber, event.detail.audioUrls);
+	const handleCopyAyat = (event: CustomEvent) => copyAyat(event.detail.ayat);
+	const handleOpenSearchModal = () => showSearchModal = true;
+	const handleOpenQuickNav = () => showQuickNav = true;
+	const handleCloseSearchModal = () => showSearchModal = false;
+	const handleCloseQuickNav = () => showQuickNav = false;
+	const handleClearSearch = () => clearSearch();
+	const handleHashChange = () => handleUrlHash();
 
 	// Lifecycle
 	onMount(() => {

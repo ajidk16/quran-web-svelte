@@ -1,73 +1,170 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@custom-variant light (&:where([data-theme=light], [data-theme=light] *));
+
+
 @layer base {
-
-    /* Variabel untuk mode TERANG (light mode) */
+    /* Base CSS custom properties for Tailwind 4 dark mode */
     :root {
-        --background: 0 0% 100%;
-        --foreground: 222.2 84% 4.9%;
+        /* Light mode colors */
+        --tw-prose-body: theme(colors.gray.700);
+        --tw-prose-headings: theme(colors.gray.900);
+        --tw-prose-links: theme(colors.emerald.600);
+        --tw-prose-bold: theme(colors.gray.900);
+        --tw-prose-counters: theme(colors.gray.500);
+        --tw-prose-bullets: theme(colors.gray.300);
+        --tw-prose-hr: theme(colors.gray.200);
+        --tw-prose-quotes: theme(colors.gray.900);
+        --tw-prose-quote-borders: theme(colors.gray.200);
+        --tw-prose-captions: theme(colors.gray.500);
+        --tw-prose-code: theme(colors.gray.900);
+        --tw-prose-pre-code: theme(colors.gray.200);
+        --tw-prose-pre-bg: theme(colors.gray.800);
+        --tw-prose-th-borders: theme(colors.gray.300);
+        --tw-prose-td-borders: theme(colors.gray.200);
 
-        --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
-
-        --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-
-        --primary: 222.2 47.4% 11.2%;
-        --primary-foreground: 210 40% 98%;
-
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
-
-        --destructive: 0 84.2% 60.2%;
-        --destructive-foreground: 210 40% 98%;
-
-        --border: 214.3 31.8% 91.4%;
-        --input: 214.3 31.8% 91.4%;
-        --ring: 222.2 84% 4.9%;
-
-        --radius: 0.5rem;
-        /* Ubah nilai ini untuk mengatur radius sudut semua komponen */
+        /* App specific CSS variables for light mode */
+        --app-bg-primary: theme(colors.white);
+        --app-bg-secondary: theme(colors.gray.50);
+        --app-bg-tertiary: theme(colors.gray.100);
+        --app-text-primary: theme(colors.gray.900);
+        --app-text-secondary: theme(colors.gray.600);
+        --app-text-muted: theme(colors.gray.500);
+        --app-border: theme(colors.gray.200);
+        --app-border-light: theme(colors.gray.100);
+        
+        /* Card styles */
+        --app-card-bg: theme(colors.white);
+        --app-card-border: theme(colors.gray.200);
+        --app-card-shadow: theme(boxShadow.lg);
+        
+        /* Input styles */
+        --app-input-bg: theme(colors.white);
+        --app-input-border: theme(colors.gray.300);
+        --app-input-focus-border: theme(colors.emerald.500);
+        
+        /* Button styles */
+        --app-btn-primary-bg: theme(colors.emerald.600);
+        --app-btn-primary-hover: theme(colors.emerald.700);
+        --app-btn-secondary-bg: theme(colors.gray.100);
+        --app-btn-secondary-hover: theme(colors.gray.200);
+        
+        /* Color scheme */
+        color-scheme: light;
     }
 
-    /* Variabel untuk mode GELAP (dark mode) */
+    /* Dark mode overrides */
+    :root.dark,
     .dark {
-        --background: 222.2 84% 4.9%;
-        --foreground: 210 40% 98%;
+        /* Dark mode prose colors */
+        --tw-prose-body: theme(colors.gray.300);
+        --tw-prose-headings: theme(colors.white);
+        --tw-prose-links: theme(colors.emerald.400);
+        --tw-prose-bold: theme(colors.white);
+        --tw-prose-counters: theme(colors.gray.400);
+        --tw-prose-bullets: theme(colors.gray.600);
+        --tw-prose-hr: theme(colors.gray.700);
+        --tw-prose-quotes: theme(colors.gray.100);
+        --tw-prose-quote-borders: theme(colors.gray.700);
+        --tw-prose-captions: theme(colors.gray.400);
+        --tw-prose-code: theme(colors.white);
+        --tw-prose-pre-code: theme(colors.gray.300);
+        --tw-prose-pre-bg: theme(colors.gray.800);
+        --tw-prose-th-borders: theme(colors.gray.600);
+        --tw-prose-td-borders: theme(colors.gray.700);
 
-        --card: 222.2 84% 4.9%;
-        --card-foreground: 210 40% 98%;
+        /* App specific CSS variables for dark mode */
+        --app-bg-primary: theme(colors.gray.900);
+        --app-bg-secondary: theme(colors.gray.800);
+        --app-bg-tertiary: theme(colors.gray.700);
+        --app-text-primary: theme(colors.gray.100);
+        --app-text-secondary: theme(colors.gray.300);
+        --app-text-muted: theme(colors.gray.400);
+        --app-border: theme(colors.gray.700);
+        --app-border-light: theme(colors.gray.600);
+        
+        /* Card styles */
+        --app-card-bg: theme(colors.gray.800);
+        --app-card-border: theme(colors.gray.700);
+        --app-card-shadow: theme(boxShadow.xl);
+        
+        /* Input styles */
+        --app-input-bg: theme(colors.gray.700);
+        --app-input-border: theme(colors.gray.600);
+        --app-input-focus-border: theme(colors.emerald.500);
+        
+        /* Button styles */
+        --app-btn-primary-bg: theme(colors.emerald.600);
+        --app-btn-primary-hover: theme(colors.emerald.700);
+        --app-btn-secondary-bg: theme(colors.gray.700);
+        --app-btn-secondary-hover: theme(colors.gray.600);
+        
+        /* Color scheme */
+        color-scheme: dark;
+    }
 
-        --popover: 222.2 84% 4.9%;
-        --popover-foreground: 210 40% 98%;
+    /* Global base styles with dark mode support */
+    html {
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    
+    body {
+        background-color: var(--app-bg-primary);
+        color: var(--app-text-primary);
+        transition: background-color 0.2s ease, color 0.2s ease;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    }
+    
+    /* Ensure proper transition for theme changes on all elements */
+    *, *::before, *::after {
+        transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        transition-duration: 200ms;
+    }
 
-        --primary: 210 40% 98%;
-        --primary-foreground: 222.2 47.4% 11.2%;
-
-        --secondary: 217.2 32.6% 17.5%;
-        --secondary-foreground: 210 40% 98%;
-
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
-
-        --accent: 217.2 32.6% 17.5%;
-        --accent-foreground: 210 40% 98%;
-
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
-
-        --border: 217.2 32.6% 17.5%;
-        --input: 217.2 32.6% 17.5%;
-        --ring: 212.7 26.8% 83.9%;
+    /* Custom utility classes for consistent theming */
+    .app-bg-primary {
+        background-color: var(--app-bg-primary);
+    }
+    
+    .app-bg-secondary {
+        background-color: var(--app-bg-secondary);
+    }
+    
+    .app-bg-tertiary {
+        background-color: var(--app-bg-tertiary);
+    }
+    
+    .app-text-primary {
+        color: var(--app-text-primary);
+    }
+    
+    .app-text-secondary {
+        color: var(--app-text-secondary);
+    }
+    
+    .app-text-muted {
+        color: var(--app-text-muted);
+    }
+    
+    .app-border {
+        border-color: var(--app-border);
+    }
+    
+    .app-card {
+        background-color: var(--app-card-bg);
+        border-color: var(--app-card-border);
+        box-shadow: var(--app-card-shadow);
     }
 }
 
+/* Tailwind 4 theme configuration */
 @theme {
-    --color-primary: #32B7C5;
+    --color-primary: #10b981;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #6b7280;
+    --color-accent: #3b82f6;
+    --color-muted: #9ca3af;
+    --color-destructive: #ef4444;
 }

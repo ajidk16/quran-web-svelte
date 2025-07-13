@@ -37,7 +37,7 @@
 	<div class="fixed bottom-6 right-6 flex flex-col gap-2 z-40">
 		<button
 			onclick={scrollToTop}
-			class="p-3 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-colors"
+			class="p-3 bg-emerald-600 dark:bg-emerald-700 text-white rounded-full shadow-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
 			title="Ke atas (Ctrl+Home)"
 			aria-label="Ke atas"
 		>
@@ -47,7 +47,7 @@
 		{#if selectedAyat > 1}
 			<button
 				onclick={scrollToPrevAyat}
-				class="p-3 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-colors"
+				class="p-3 bg-emerald-600 dark:bg-emerald-700 text-white rounded-full shadow-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
 				title="Ayat sebelumnya (Ctrl+↑)"
 				aria-label="Ayat sebelumnya"
 			>
@@ -57,7 +57,7 @@
 
 		<button
 			onclick={openSearchModal}
-			class="p-3 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-colors"
+			class="p-3 bg-emerald-600 dark:bg-emerald-700 text-white rounded-full shadow-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
 			title="Cari Ayat (Ctrl+F)"
 			aria-label="Cari Ayat"
 		>
@@ -66,7 +66,7 @@
 
 		<button
 			onclick={openQuickNav}
-			class="p-3 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-colors"
+			class="p-3 bg-emerald-600 dark:bg-emerald-700 text-white rounded-full shadow-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
 			title="Pergi ke ayat (Ctrl+G)"
 			aria-label="Pergi ke ayat"
 		>
@@ -76,7 +76,7 @@
 		{#if selectedAyat < (surah?.jumlahAyat ?? 0)}
 			<button
 				onclick={scrollToNextAyat}
-				class="p-3 bg-emerald-600 text-white rounded-full shadow-lg hover:bg-emerald-700 transition-colors"
+				class="p-3 bg-emerald-600 dark:bg-emerald-700 text-white rounded-full shadow-lg hover:bg-emerald-700 dark:hover:bg-emerald-600 transition-colors"
 				title="Ayat selanjutnya (Ctrl+↓)"
 				aria-label="Ayat selanjutnya"
 			>

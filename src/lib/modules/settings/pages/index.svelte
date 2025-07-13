@@ -12,17 +12,12 @@
 	import AdzanService from '$lib/modules/settings/components/AdzanService.svelte';
 	import QuranSettings from '$lib/modules/settings/components/QuranSettings.svelte';
 	import { Settings, Download, Upload, RotateCcw, Globe, Palette, Book } from '@lucide/svelte';
-	import { currentTheme, themeUtils } from '$lib/utils/theme';
-	import { t } from '$lib/utils/i18n';
-	import { cn } from '$lib/utils';
 
 	let showDebug = $state(false);
 	let exportData = $state('');
 	let importData = $state('');
 	let showExport = $state(false);
 	let showImport = $state(false);
-
-	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
 
 	function handleExport() {
 		exportData = exportSettings();
@@ -59,18 +54,18 @@
 	<title>Settings - Al-Quran Digital</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700">
 	<div class="container mx-auto px-4 py-8">
 		<div class="max-w-4xl mx-auto">
 			<!-- Header -->
 			<header class="mb-8 relative z-10 bg-transparent">
 				<div class="flex items-center gap-3 mb-2 py-4">
-					<div class="p-2 bg-emerald-100 rounded-full flex-shrink-0">
-						<Settings size={32} class="text-emerald-600" />
+					<div class="p-2 bg-emerald-100 dark:bg-emerald-800 rounded-full flex-shrink-0">
+						<Settings size={32} class="text-emerald-600 dark:text-emerald-300" />
 					</div>
 					<div class="flex-grow">
-						<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 leading-tight">Pengaturan</h1>
-						<p class="text-sm sm:text-base text-gray-600 mt-1">
+						<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">Pengaturan</h1>
+						<p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
 							Sesuaikan pengalaman Al-Quran dan jadwal sholat Anda
 						</p>
 					</div>
@@ -83,13 +78,13 @@
 				<QuranSettings />
 				
 				<!-- App Settings -->
-				<div class="bg-white rounded-lg shadow-md overflow-hidden">
-					<div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4">
+				<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+					<div class="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white p-4">
 						<div class="flex items-center gap-3">
 							<Palette size={24} />
 							<div>
 								<h3 class="text-lg font-semibold">Pengaturan Aplikasi</h3>
-								<p class="text-blue-100 text-sm">Tema, bahasa, dan preferensi umum</p>
+								<p class="text-blue-100 dark:text-blue-200 text-sm">Tema, bahasa, dan preferensi umum</p>
 							</div>
 						</div>
 					</div>
@@ -97,12 +92,12 @@
 					<div class="p-6 space-y-6">
 						<!-- Theme Settings -->
 						<div class="space-y-3">
-							<h4 class="font-medium text-gray-900 flex items-center gap-2">
+							<h4 class="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
 								<Palette size={18} />
 								Tema Aplikasi
 							</h4>
 							<select
-								class="w-full sm:w-auto min-w-[200px] border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								class="w-full sm:w-auto min-w-[200px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 							>
 								<option value="light">🌞 Light Mode</option>
 								<option value="dark">🌙 Dark Mode</option>
@@ -112,12 +107,12 @@
 
 						<!-- Language Settings -->
 						<div class="space-y-3">
-							<h4 class="font-medium text-gray-900 flex items-center gap-2">
+							<h4 class="font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
 								<Globe size={18} />
 								Bahasa Interface
 							</h4>
 							<select
-								class="w-full sm:w-auto min-w-[200px] border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+								class="w-full sm:w-auto min-w-[200px] border border-gray-300 dark:border-gray-600 bg-white dark:bg-slate-700 text-gray-900 dark:text-gray-100 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
 							>
 								<option value="id">🇮🇩 Bahasa Indonesia</option>
 								<option value="ar">🇸🇦 العربية</option>
@@ -128,8 +123,8 @@
 						<!-- Auto Location -->
 						<div class="flex items-center justify-between">
 							<div>
-								<h4 class="font-medium text-gray-900">Deteksi Lokasi Otomatis</h4>
-								<p class="text-sm text-gray-600">Gunakan lokasi perangkat untuk jadwal sholat</p>
+								<h4 class="font-medium text-gray-900 dark:text-gray-100">Deteksi Lokasi Otomatis</h4>
+								<p class="text-sm text-gray-600 dark:text-gray-400">Gunakan lokasi perangkat untuk jadwal sholat</p>
 							</div>
 							<label class="relative inline-flex items-center cursor-pointer">
 								<input
@@ -139,7 +134,7 @@
 									class="sr-only peer"
 								/>
 								<div
-									class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"
+									class="w-11 h-6 bg-gray-200 dark:bg-gray-700 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-gray-600 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600 dark:peer-checked:bg-blue-700"
 								></div>
 							</label>
 						</div>
@@ -147,13 +142,13 @@
 				</div>
 
 				<!-- Settings Management -->
-				<div class="bg-white rounded-lg shadow-md overflow-hidden">
-					<div class="bg-gradient-to-r from-gray-600 to-gray-700 text-white p-4">
+				<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
+					<div class="bg-gradient-to-r from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800 text-white p-4">
 						<div class="flex items-center gap-3">
 							<Settings size={24} />
 							<div>
 								<h3 class="text-lg font-semibold">Kelola Pengaturan</h3>
-								<p class="text-gray-100 text-sm">Backup, restore, dan reset pengaturan</p>
+								<p class="text-gray-100 dark:text-gray-200 text-sm">Backup, restore, dan reset pengaturan</p>
 							</div>
 						</div>
 					</div>
@@ -164,21 +159,21 @@
 							<div class="flex flex-wrap gap-3">
 								<button
 									onclick={handleExport}
-									class="flex items-center gap-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+									class="flex items-center gap-2 px-4 py-2 bg-green-600 dark:bg-green-700 text-white rounded-lg hover:bg-green-700 dark:hover:bg-green-800 transition-colors"
 								>
 									<Download size={16} />
 									Export Settings
 								</button>
 								<button
 									onclick={() => (showImport = !showImport)}
-									class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+									class="flex items-center gap-2 px-4 py-2 bg-blue-600 dark:bg-blue-700 text-white rounded-lg hover:bg-blue-700 dark:hover:bg-blue-800 transition-colors"
 								>
 									<Upload size={16} />
 									Import Settings
 								</button>
 								<button
 									onclick={handleReset}
-									class="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+									class="flex items-center gap-2 px-4 py-2 bg-red-600 dark:bg-red-700 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-800 transition-colors"
 								>
 									<RotateCcw size={16} />
 									Reset All
@@ -187,27 +182,27 @@
 
 							<!-- Export Modal -->
 							{#if showExport}
-								<div class="border border-green-300 rounded-lg p-4 bg-green-50">
-									<h5 class="font-medium mb-2 text-green-800">Export Data Berhasil</h5>
-									<p class="text-sm text-green-700 mb-3">
+								<div class="border border-green-300 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20">
+									<h5 class="font-medium mb-2 text-green-800 dark:text-green-300">Export Data Berhasil</h5>
+									<p class="text-sm text-green-700 dark:text-green-400 mb-3">
 										Copy data di bawah dan simpan sebagai backup.
 									</p>
 									<textarea
 										bind:value={exportData}
 										readonly
 										rows="6"
-										class="w-full p-3 border border-green-300 rounded-md font-mono text-sm bg-white"
+										class="w-full p-3 border border-green-300 dark:border-green-600 rounded-md font-mono text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100"
 									></textarea>
 									<div class="mt-3 flex gap-2">
 										<button
 											onclick={copyToClipboard}
-											class="px-3 py-1 bg-emerald-600 text-white rounded text-sm hover:bg-emerald-700"
+											class="px-3 py-1 bg-emerald-600 dark:bg-emerald-700 text-white rounded text-sm hover:bg-emerald-700 dark:hover:bg-emerald-800"
 										>
 											📋 Copy
 										</button>
 										<button
 											onclick={() => (showExport = false)}
-											class="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+											class="px-3 py-1 bg-gray-600 dark:bg-gray-700 text-white rounded text-sm hover:bg-gray-700 dark:hover:bg-gray-800"
 										>
 											Close
 										</button>
@@ -217,27 +212,27 @@
 
 							<!-- Import Modal -->
 							{#if showImport}
-								<div class="border border-blue-300 rounded-lg p-4 bg-blue-50">
-									<h5 class="font-medium mb-2 text-blue-800">Import Settings</h5>
-									<p class="text-sm text-blue-700 mb-3">
+								<div class="border border-blue-300 dark:border-blue-600 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20">
+									<h5 class="font-medium mb-2 text-blue-800 dark:text-blue-300">Import Settings</h5>
+									<p class="text-sm text-blue-700 dark:text-blue-400 mb-3">
 										Paste data export yang tersimpan sebelumnya.
 									</p>
 									<textarea
 										bind:value={importData}
 										placeholder="Paste settings JSON here..."
 										rows="6"
-										class="w-full p-3 border border-blue-300 rounded-md font-mono text-sm"
+										class="w-full p-3 border border-blue-300 dark:border-blue-600 rounded-md font-mono text-sm bg-white dark:bg-slate-800 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400"
 									></textarea>
 									<div class="mt-3 flex gap-2">
 										<button
 											onclick={handleImport}
-											class="px-3 py-1 bg-blue-600 text-white rounded text-sm hover:bg-blue-700"
+											class="px-3 py-1 bg-blue-600 dark:bg-blue-700 text-white rounded text-sm hover:bg-blue-700 dark:hover:bg-blue-800"
 										>
 											📥 Import
 										</button>
 										<button
 											onclick={() => (showImport = false)}
-											class="px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700"
+											class="px-3 py-1 bg-gray-600 dark:bg-gray-700 text-white rounded text-sm hover:bg-gray-700 dark:hover:bg-gray-800"
 										>
 											Cancel
 										</button>
@@ -247,10 +242,10 @@
 						</div>
 
 						<!-- Debug Toggle -->
-						<div class="pt-4 border-t border-gray-200">
+						<div class="pt-4 border-t border-gray-200 dark:border-gray-700">
 							<button
 								onclick={() => (showDebug = !showDebug)}
-								class="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
+								class="flex items-center gap-2 px-4 py-2 bg-yellow-600 dark:bg-yellow-700 text-white rounded-lg hover:bg-yellow-700 dark:hover:bg-yellow-800 transition-colors"
 							>
 								<Book size={16} />
 								{showDebug ? 'Hide' : 'Show'} Debug Info
@@ -265,29 +260,29 @@
 				{/if}
 
 				<!-- Settings Info -->
-				<div class="bg-white rounded-lg shadow-md p-6">
-					<h4 class="font-medium text-gray-900 mb-3">📊 Informasi Pengaturan</h4>
+				<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md p-6">
+					<h4 class="font-medium text-gray-900 dark:text-gray-100 mb-3">📊 Informasi Pengaturan</h4>
 					<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
 						<div class="space-y-2">
 							<div class="flex justify-between">
-								<span class="text-gray-600">Terakhir Diupdate:</span>
-								<span class="font-medium"
+								<span class="text-gray-600 dark:text-gray-400">Terakhir Diupdate:</span>
+								<span class="font-medium text-gray-900 dark:text-gray-100"
 									>{new Date($userPreferences.lastUpdated).toLocaleDateString('id-ID')}</span
 								>
 							</div>
 							<div class="flex justify-between">
-								<span class="text-gray-600">Version:</span>
-								<span class="font-medium">1.0.0</span>
+								<span class="text-gray-600 dark:text-gray-400">Version:</span>
+								<span class="font-medium text-gray-900 dark:text-gray-100">1.0.0</span>
 							</div>
 						</div>
 						<div class="space-y-2">
 							<div class="flex justify-between">
-								<span class="text-gray-600">Storage:</span>
-								<span class="font-medium">localStorage</span>
+								<span class="text-gray-600 dark:text-gray-400">Storage:</span>
+								<span class="font-medium text-gray-900 dark:text-gray-100">localStorage</span>
 							</div>
 							<div class="flex justify-between">
-								<span class="text-gray-600">Data Size:</span>
-								<span class="font-medium"
+								<span class="text-gray-600 dark:text-gray-400">Data Size:</span>
+								<span class="font-medium text-gray-900 dark:text-gray-100"
 									>~{Math.round(JSON.stringify($userPreferences).length / 1024)} KB</span
 								>
 							</div>

@@ -1,0 +1,147 @@
+{
+	"nav": {
+		"home": "Home",
+		"quran": "Quran",
+		"bookmarks": "Bookmarks",
+		"prayer-times": "Prayer Times",
+		"settings": "Settings"
+	},
+	"beranda": {
+		"welcome": "Welcome to Quran's Web",
+		"description": "A web application for reading the Quran easily and comfortably.",
+		"title_1": "Complete Quran",
+		"detail_1": "Access all 114 chapters with beautiful Arabic text and translations.",
+		"title_2": "Prayer Times",
+		"detail_2": "Never miss a prayer with accurate prayer times based on your location.",
+		"title_3": "Bookmarks",
+		"detail_3": "Save your favorite verses and access them anytime.",
+		"today_verse": "Verse of the Day"
+	},
+	"footer": {
+		"description": "Thank you for using Quran's Web. We hope this application helps you in your Quran reading journey.",
+		"contact": "Contact Us",
+		"privacy_policy": "Privacy Policy",
+		"terms_of_service": "Terms of Service",
+		"help": "Help",
+		"quick_links": "Quick Links",
+		"resources": "Resources",
+		"about": "About",
+		"next_prayer": "Next Prayer",
+		"tomorrow": "Tomorrow's Prayer"
+	},
+	"bookmarks": {
+		"title": "Bookmarked Verses",
+		"subtitle": "Your collection of favorite verses",
+		"stats": {
+			"total": "Total Bookmarks",
+			"surahs": "Surah"
+		},
+		"count": "{count} bookmarks",
+		"noResults": "No results found",
+		"resultsCount": "Showing {count} of {total} bookmarks",
+		"empty": {
+			"title": "No Bookmarks Yet",
+			"subtitle": "You haven't saved any verses yet. Start reading the Quran and bookmark your favorite verses.",
+			"search": {
+				"title": "No Results Found",
+				"subtitle": "No bookmarks found matching the search \"{query}\"."
+			}
+		},
+		"search": {
+			"placeholder": "Search bookmarks (verses, translations, notes...)"
+		},
+		"filter": {
+			"toggle": "Filter & Sort",
+			"title": "Filter",
+			"surah": "Filter by Surah",
+			"allSurahs": "All Surahs",
+			"clear": "Clear Filter"
+		},
+		"sort": {
+			"title": "Sort by",
+			"date": "Date",
+			"surah": "Surah",
+			"verse": "Verse"
+		},
+		"card": {
+			"verse": "Verse",
+			"translation": "Translation",
+			"personalNote": "Personal Note",
+			"addNote": "Add a note for this verse...",
+			"noNote": "No notes yet",
+			"editNote": "Edit note",
+			"save": "Save",
+			"cancel": "Cancel",
+			"goToVerse": "Open Verse",
+			"delete": "Delete"
+		},
+		"how": {
+			"title": "How to Bookmark Verses",
+			"step1": "Open the surah page you want to read",
+			"step2": "Click the bookmark icon (🔖) on the desired verse",
+			"step3": "The verse will be saved and accessible on this page"
+		}
+	},
+	"action": {
+		"start_reading": "Start Reading",
+		"prayer_times": "Prayer Times",
+		"search": "Search",
+		"filter": "Filter",
+		"reset_search": "Reset Search",
+		"bookmark": "Bookmark",
+		"remove_bookmark": "Remove Bookmark",
+		"copy": "Copy",
+		"share": "Share",
+		"play": "Play",
+		"pause": "Pause",
+		"edit": "Edit",
+		"delete": "Delete",
+		"save": "Save",
+		"cancel": "Cancel"
+	},
+	"quran": {
+		"description":"Read with ease and focus. Find peace in every sacred verse.",
+		"surah": "Surah",
+		"verse": "Verse",
+		"verses": "verses",
+		"arabic_text": "Arabic Text",
+		"transliteration": "Transliteration",
+		"translation": "Translation",
+        "search": "Search",
+        "loading": "Loading surah list...",
+        "error": "An error occurred while loading the surah list."
+	},
+	"notification": {
+		"bookmark": {
+			"added": "Verse {verse} from Surah {surah} has been bookmarked",
+			"removed": "Verse {verse} from Surah {surah} has been removed from bookmarks"
+		},
+		"copied": "Verse copied to clipboard"
+	},
+	"settings": {
+		"title": "Settings",
+		"theme": "Theme",
+		"language": "Language",
+		"theme_options": {
+			"light": "Light",
+			"dark": "Dark",
+			"system": "System"
+		},
+		"language_options": {
+			"id": "Bahasa Indonesia",
+			"en": "English"
+		}
+	},
+	"time": {
+		"morning": "Morning",
+		"afternoon": "Afternoon",
+		"evening": "Evening",
+		"night": "Night"
+	},
+	"search": {
+		"tips": "Search tips:",
+		"tip1": "Try more general keywords",
+		"tip2": "Check keyword spelling",
+		"tip3": "Search by surah name or verse content"
+	}
+}

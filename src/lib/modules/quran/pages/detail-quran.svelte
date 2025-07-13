@@ -4,6 +4,8 @@
 	import { onMount } from 'svelte';
 	import type { QuranDataDto } from '../types';
 	import { fetchSurahBySlug } from '../api';
+	import { currentTheme, themeUtils } from '$lib/utils/theme';
+	import { cn } from '$lib/utils';
 
 	// Import components
 	import SurahHeader from '../components/SurahHeader.svelte';
@@ -15,34 +17,46 @@
 	import ErrorMessage from '../components/ErrorMessage.svelte';
 	import { Toast } from '$lib/components/shared';
 
-	// State variables
-	let selectedAyat = 1;
-	let searchQuery = '';
-	let showSearchResults = false;
-	let showAdvancedFilter = false;
-	let filteredAyats: QuranDataDto['ayat'] = [];
-	let filterByRange = false;
-	let rangeStart = 1;
-	let rangeEnd = 1;
-	let showSearchModal = false;
-	let showQuickNav = false;
-	let surah: QuranDataDto | null = null;
-	let loading = false;
-	let error: string | null = null;
+	// State variables using Svelte 5 runes
+	let selectedAyat = $state(1);
+	let searchQuery = $state('');
+	let showSearchResults = $state(false);
+	let showAdvancedFilter = $state(false);
+	let filteredAyats: QuranDataDto['ayat'] = $state([]);
+	let filterByRange = $state(false);
+	let rangeStart = $state(1);
+	let rangeEnd = $state(1);
+	let showSearchModal = $state(false);
+	let showQuickNav = $state(false);
+	let surah: QuranDataDto | null = $state(null);
+	let loading = $state(false);
+	let error: string | null = $state(null);
 	let currentAudio: HTMLAudioElement | null = null;
-	let playingAyat: number | null = null;
-	let audioLoading: number | null = null;
+	let playingAyat: number | null = $state(null);
+	let audioLoading: number | null = $state(null);
 
 	// Toast notification state
-	let showToast = false;
-	let toastMessage = '';
-	let toastType: 'success' | 'error' | 'bookmark' = 'bookmark';
+	let showToast = $state(false);
+	let toastMessage = $state('');
+	let toastType: 'success' | 'error' | 'bookmark' = $state('bookmark');
 
 	const slug = page.params.slug;
 
-	// Reactive statements
-	$: if (surah?.jumlahAyat) rangeEnd = surah.jumlahAyat;
-	$: if (playingAyat !== null) scrollToAyat(playingAyat);
+	// Theme classes
+	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
+
+	// Reactive effects
+	$effect(() => {
+		if (surah?.jumlahAyat) {
+			rangeEnd = surah.jumlahAyat;
+		}
+	});
+
+	$effect(() => {
+		if (playingAyat !== null) {
+			scrollToAyat(playingAyat);
+		}
+	});
 
 	// Utility functions
 	const scrollToAyat = (ayatNum: number) => {
@@ -50,19 +64,19 @@
 		const el = document.getElementById(`ayat-${ayatNum}`);
 		if (el) {
 			selectedAyat = ayatNum;
-			
+
 			// Get header height dynamically
 			const header = document.querySelector('header') || document.querySelector('.header');
 			const headerHeight = header ? header.offsetHeight + 32 : 132; // +32 for mt-8
-			
+
 			const elementPosition = el.offsetTop - headerHeight;
-			
+
 			// Scroll dengan offset yang tepat agar ayat berada di bawah header dengan mt-8
 			window.scrollTo({
 				top: Math.max(0, elementPosition),
 				behavior: 'smooth'
 			});
-			
+
 			el.classList.add('highlight-ayat');
 			setTimeout(() => el.classList.remove('highlight-ayat'), 2000);
 		}
@@ -131,15 +145,26 @@
 		try {
 			audioLoading = ayatNumber;
 			const audioSources = Object.entries(audioUrls);
-			
+
 			for (const [, url] of audioSources) {
 				try {
 					currentAudio = new Audio(url);
-					
-					currentAudio.addEventListener('loadstart', () => audioLoading = ayatNumber);
-					currentAudio.addEventListener('canplay', () => { audioLoading = null; playingAyat = ayatNumber; });
-					currentAudio.addEventListener('ended', () => { playingAyat = null; currentAudio = null; playNextAyat(ayatNumber); });
-					currentAudio.addEventListener('error', () => { audioLoading = null; playingAyat = null; currentAudio = null; });
+
+					currentAudio.addEventListener('loadstart', () => (audioLoading = ayatNumber));
+					currentAudio.addEventListener('canplay', () => {
+						audioLoading = null;
+						playingAyat = ayatNumber;
+					});
+					currentAudio.addEventListener('ended', () => {
+						playingAyat = null;
+						currentAudio = null;
+						playNextAyat(ayatNumber);
+					});
+					currentAudio.addEventListener('error', () => {
+						audioLoading = null;
+						playingAyat = null;
+						currentAudio = null;
+					});
 
 					await currentAudio.play();
 					break;
@@ -173,7 +198,8 @@
 
 	// Navigation functions
 	const scrollToTop = () => browser && window.scrollTo({ top: 0, behavior: 'smooth' });
-	const scrollToNextAyat = () => selectedAyat < (surah?.jumlahAyat ?? 0) && scrollToAyat(selectedAyat + 1);
+	const scrollToNextAyat = () =>
+		selectedAyat < (surah?.jumlahAyat ?? 0) && scrollToAyat(selectedAyat + 1);
 	const scrollToPrevAyat = () => selectedAyat > 1 && scrollToAyat(selectedAyat - 1);
 
 	// Keyboard navigation
@@ -206,7 +232,8 @@
 
 	// Event handlers
 	const handleScrollToAyat = (event: CustomEvent) => scrollToAyat(event.detail.ayatNum);
-	const handlePlayAudio = (event: CustomEvent) => playAudio(event.detail.ayatNumber, event.detail.audioUrls);
+	const handlePlayAudio = (event: CustomEvent) =>
+		playAudio(event.detail.ayatNumber, event.detail.audioUrls);
 	const handleCopyAyat = (event: CustomEvent) => copyAyat(event.detail.ayat);
 
 	// Handle bookmark toggle
@@ -224,17 +251,17 @@
 	const handleToastClose = () => {
 		showToast = false;
 	};
-	const handleOpenSearchModal = () => showSearchModal = true;
-	const handleOpenQuickNav = () => showQuickNav = true;
-	const handleCloseSearchModal = () => showSearchModal = false;
-	const handleCloseQuickNav = () => showQuickNav = false;
+	const handleOpenSearchModal = () => (showSearchModal = true);
+	const handleOpenQuickNav = () => (showQuickNav = true);
+	const handleCloseSearchModal = () => (showSearchModal = false);
+	const handleCloseQuickNav = () => (showQuickNav = false);
 	const handleClearSearch = () => clearSearch();
 	const handleHashChange = () => handleUrlHash();
 
 	// Lifecycle
 	onMount(() => {
 		loadSurah();
-		
+
 		if (browser) {
 			document.addEventListener('keydown', handleKeydown);
 			window.addEventListener('hashchange', handleHashChange);
@@ -250,33 +277,89 @@
 	});
 </script>
 
-<main class="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-blue-50">
+<main class={cn("min-h-screen", themeClasses.bgSecondary)}>
 	{#if surah}
 		<SurahHeader {surah} />
 	{/if}
 
-	<div class="container mx-auto px-6 py-12 max-w-4xl">
+	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-5xl">
 		{#if loading}
-			<LoadingSpinner />
+			<div class="flex justify-center items-center py-20">
+				<LoadingSpinner />
+			</div>
 		{:else if error}
-			<ErrorMessage {error} />
-		{:else}
-			<div class="space-y-8">
-				{#each surah?.ayat ?? [] as ayat}
-					<AyatCard
-						{ayat}
-						{surah}
-						{selectedAyat}
-						{playingAyat}
-						{audioLoading}
-						on:scrollToAyat={handleScrollToAyat}
-						on:playAudio={handlePlayAudio}
-						on:copyAyat={handleCopyAyat}
-						on:bookmarkToggled={handleBookmarkToggle}
-					/>
+			<div class="max-w-2xl mx-auto">
+				<ErrorMessage {error} />
+			</div>
+		{:else if surah}
+			<!-- Surah Info Card -->
+			<div class={cn("rounded-2xl shadow-lg p-6 mb-8", themeClasses.card)}>
+				<div class="text-center space-y-4">
+					<div class={cn("inline-flex items-center justify-center w-16 h-16 rounded-full mb-4", 
+						$currentTheme === 'dark' ? 'bg-emerald-900' : 'bg-emerald-100')}>
+						<svg
+							class={cn("w-8 h-8", $currentTheme === 'dark' ? 'text-emerald-400' : 'text-emerald-600')}
+							fill="currentColor"
+							viewBox="0 0 24 24"
+						>
+							<path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z" />
+						</svg>
+					</div>
+					<h1 class={cn("text-2xl sm:text-3xl font-bold", themeClasses.textPrimary)}>
+						{surah.namaLatin}
+					</h1>
+					<p class={themeClasses.textSecondary}>
+						{surah.tempatTurun} • {surah.jumlahAyat} Ayat
+					</p>
+					{#if surah.arti}
+						<p class={cn("text-sm italic", themeClasses.textMuted)}>
+							"{surah.arti}"
+						</p>
+					{/if}
+				</div>
+			</div>
+
+			<!-- Ayat Cards -->
+			<div class="space-y-6">
+				{#each surah.ayat as ayat}
+					<div class="group">
+						<AyatCard
+							{ayat}
+							{surah}
+							{selectedAyat}
+							{playingAyat}
+							{audioLoading}
+							on:scrollToAyat={handleScrollToAyat}
+							on:playAudio={handlePlayAudio}
+							on:copyAyat={handleCopyAyat}
+							on:bookmarkToggled={handleBookmarkToggle}
+						/>
+					</div>
 				{/each}
 			</div>
+
+			<!-- Bottom Spacing -->
+			<div class="h-20"></div>
 		{/if}
+	</div>
+
+	<!-- Background Pattern -->
+	<div class={cn("fixed inset-0 -z-10", $currentTheme === 'dark' ? 'opacity-10' : 'opacity-5')}>
+		<svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+			<defs>
+				<pattern
+					id="islamic-pattern"
+					x="0"
+					y="0"
+					width="20"
+					height="20"
+					patternUnits="userSpaceOnUse"
+				>
+					<path d="M10 0L20 10L10 20L0 10Z" fill="currentColor" class="text-emerald-500" />
+				</pattern>
+			</defs>
+			<rect width="100%" height="100%" fill="url(#islamic-pattern)" />
+		</svg>
 	</div>
 </main>
 
@@ -318,18 +401,22 @@
 {/if}
 
 <!-- Toast Notification -->
-<Toast
-	bind:show={showToast}
-	type={toastType}
-	title={toastMessage}
-	on:close={handleToastClose}
-/>
+<Toast bind:show={showToast} type={toastType} title={toastMessage} on:close={handleToastClose} />
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
 
 	:global(body) {
 		font-family: 'Inter', sans-serif;
+	}
+
+	/* Theme-aware gradients for detail pages */
+	:global(body.light) main {
+		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
+	}
+	
+	:global(body.dark) main {
+		background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
 	}
 
 	:global(.highlight-ayat) {

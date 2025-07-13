@@ -1,0 +1,148 @@
+{
+	"nav": {
+		"home": "Beranda",
+		"quran": "Al-Quran",
+		"bookmarks": "Bookmark",
+		"prayer-times": "Waktu Sholat",
+		"settings": "Pengaturan"
+	},
+	"beranda": {
+		"welcome": "Selamat Datang di Quran's Web",
+		"description": "Aplikasi web untuk membaca Al-Quran dengan mudah dan nyaman.",
+		"startReading": "Mulai Membaca",
+		"title_1": "Al-Quran Lengkap",
+		"detail_1": "Akses semua 114 surah dengan teks Arab yang indah dan terjemahan.",
+		"title_2": "Waktu Sholat",
+		"detail_2": "Jangan lewatkan sholat dengan waktu sholat yang akurat berdasarkan lokasi Anda.",
+		"title_3": "Bookmark",
+		"detail_3": "Simpan ayat favorit Anda dan akses kapan saja.",
+		"today_verse": "Ayat Hari Ini"
+	},
+	"footer": {
+		"description": "Terima kasih telah menggunakan Quran's Web. Kami berharap aplikasi ini membantu Anda dalam perjalanan membaca Al-Quran.",
+		"contact": "Hubungi Kami",
+		"privacy_policy": "Kebijakan Privasi",
+		"terms_of_service": "Syarat Layanan",
+		"help": "Bantuan",
+		"quick_links": "Tautan Cepat",
+		"resources": "Sumber Daya",
+		"about": "Tentang Kami",
+		"next_prayer": "Sholat Berikutnya",
+		"tomorrow": "Sholat Besok"
+	},
+	"bookmarks": {
+		"title": "Bookmark Ayat",
+		"subtitle": "Kumpulan ayat-ayat favorit yang telah Anda simpan",
+		"stats": {
+			"total": "Total Bookmark",
+			"surahs": "Surah"
+		},
+		"count": "{count} bookmark",
+		"noResults": "Tidak ada hasil ditemukan",
+		"resultsCount": "Menampilkan {count} dari {total} bookmark",
+		"empty": {
+			"title": "Belum Ada Bookmark",
+			"subtitle": "Anda belum menyimpan ayat apapun. Mulai membaca Al-Quran dan bookmark ayat favorit Anda.",
+			"search": {
+				"title": "Tidak Ada Hasil",
+				"subtitle": "Tidak ditemukan bookmark yang sesuai dengan pencarian \"{query}\"."
+			}
+		},
+		"search": {
+			"placeholder": "Cari dalam bookmark (ayat, terjemahan, catatan...)"
+		},
+		"filter": {
+			"toggle": "Filter & Urutkan",
+			"title": "Filter",
+			"surah": "Filter berdasarkan Surah",
+			"allSurahs": "Semua Surah",
+			"clear": "Hapus Filter"
+		},
+		"sort": {
+			"title": "Urutkan",
+			"date": "Tanggal",
+			"surah": "Surah",
+			"verse": "Ayat"
+		},
+		"card": {
+			"verse": "Ayat",
+			"translation": "Terjemahan",
+			"personalNote": "Catatan Pribadi",
+			"addNote": "Tambahkan catatan untuk ayat ini...",
+			"noNote": "Belum ada catatan",
+			"editNote": "Edit catatan",
+			"save": "Simpan",
+			"cancel": "Batal",
+			"goToVerse": "Buka Ayat",
+			"delete": "Hapus"
+		},
+		"how": {
+			"title": "Cara Bookmark Ayat",
+			"step1": "Buka halaman surah yang ingin dibaca",
+			"step2": "Klik ikon bookmark (🔖) pada ayat yang diinginkan",
+			"step3": "Ayat akan tersimpan dan bisa diakses di halaman ini"
+		}
+	},
+	"action": {
+		"start_reading": "Mulai Membaca",
+		"prayer_times": "Waktu Sholat",
+		"search": "Cari",
+		"filter": "Filter",
+		"reset_search": "Reset Pencarian",
+		"bookmark": "Bookmark",
+		"remove_bookmark": "Hapus Bookmark",
+		"copy": "Salin",
+		"share": "Bagikan",
+		"play": "Putar",
+		"pause": "Jeda",
+		"edit": "Edit",
+		"delete": "Hapus",
+		"save": "Simpan",
+		"cancel": "Batal"
+	},
+	"quran": {
+		"description": "Bacalah dengan mudah dan khusyuk. Temukan kedamaian dalam setiap ayat yang suci.",
+		"surah": "Surah",
+		"verse": "Ayat",
+		"verses": "ayat",
+		"arabic_text": "Teks Arab",
+		"transliteration": "Transliterasi",
+		"translation": "Terjemahan",
+		"search": "Cari",
+		"loading": "Memuat daftar surah...",
+        "error": "Terjadi kesalahan saat memuat daftar surah."
+	},
+	"notification": {
+		"bookmark": {
+			"added": "Ayat {verse} dari Surah {surah} telah ditambahkan ke bookmark",
+			"removed": "Ayat {verse} dari Surah {surah} telah dihapus dari bookmark"
+		},
+		"copied": "Ayat telah disalin ke clipboard"
+	},
+	"settings": {
+		"title": "Pengaturan",
+		"theme": "Tema",
+		"language": "Bahasa",
+		"theme_options": {
+			"light": "Terang",
+			"dark": "Gelap",
+			"system": "Sistem"
+		},
+		"language_options": {
+			"id": "Bahasa Indonesia",
+			"en": "English"
+		}
+	},
+	"time": {
+		"morning": "Pagi",
+		"afternoon": "Siang",
+		"evening": "Sore",
+		"night": "Malam"
+	},
+	"search": {
+		"tips": "Tips Pencarian:",
+		"tip1": "Coba kata kunci yang berbeda",
+		"tip2": "Gunakan kata kunci yang lebih umum",
+		"tip3": "Periksa ejaan kata kunci"
+	}
+}

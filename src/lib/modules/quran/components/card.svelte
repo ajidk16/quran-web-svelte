@@ -17,7 +17,7 @@
 
 <main
 	class={cn(
-		'cursor-pointer w-full shadow bg-white flex justify-between items-center rounded-xl p-4 transition-transform duration-200 hover:scale-105 hover:shadow-lg',
+		'cursor-pointer w-full shadow bg-white dark:bg-gray-800 flex justify-between items-center rounded-xl p-4 transition-transform duration-200 hover:scale-105 hover:shadow-lg border border-gray-200 dark:border-gray-700',
 		className
 	)}
 >
@@ -25,17 +25,17 @@
 		<div class="relative flex-shrink-0">
 			<img src={Number} alt="number" class="block w-12 h-12" width="48" height="48" />
 			<div class="absolute inset-0 flex items-center justify-center">
-				<p class="text-base font-bold text-black drop-shadow p-1">{sort}</p>
+				<p class="text-base font-bold text-black dark:text-white drop-shadow p-1">{sort}</p>
 			</div>
 		</div>
 		<div class="flex flex-col justify-center text-left">
-			<span class="font-bold text-base text-black">{name}</span>
-			<span class="text-xs text-primary mt-0.5">({translation})</span>
+			<span class="font-bold text-base text-black dark:text-white">{name}</span>
+			<span class="text-xs text-primary dark:text-emerald-400 mt-0.5">({translation})</span>
 			<div class="flex gap-x-2 mt-2">
 				<Badge text={revelation} size="sm" color="gray" icon={Box} />
 				<Badge text={`${ayat} ayat`} size="sm" color="gray" icon={BookOpenText} />
 			</div>
 		</div>
 	</section>
-	<section class="text-lg font-bold text-black">{name_short}</section>
+	<section class="text-lg font-bold text-black dark:text-white">{name_short}</section>
 </main>

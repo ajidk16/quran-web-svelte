@@ -228,7 +228,7 @@
 			{#if filteredBookmarks.length > 0}
 				<div class="space-y-6">
 					{#each filteredBookmarks as bookmark, index (bookmark.id)}
-						<div class="animate-in slide-in-from-top-4 duration-300" style="animation-delay: {index * 50}ms">
+						<div class="animate-in slide-in-from-top-4 duration-300">
 							<BookmarkCard
 								{bookmark}
 								on:delete={handleDeleteBookmark}

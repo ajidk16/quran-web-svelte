@@ -71,13 +71,17 @@
 <div
 	id="ayat-{ayat.nomorAyat}"
 	class={cn(
-		'bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden hover:shadow-2xl transition-all duration-300 scroll-mt-8',
-		playingAyat === ayat.nomorAyat ? 'border-emerald-400 shadow-emerald-200' : 'border-white/50',
-		selectedAyat === ayat.nomorAyat ? 'border-emerald-500 shadow-emerald-300' : ''
+		'bg-white/80 dark:bg-gray-800/90 backdrop-blur-sm rounded-2xl shadow-xl border overflow-hidden hover:shadow-2xl transition-all duration-300 scroll-mt-8',
+		playingAyat === ayat.nomorAyat 
+			? 'border-emerald-400 dark:border-emerald-500 shadow-emerald-200 dark:shadow-emerald-900/50' 
+			: 'border-white/50 dark:border-gray-700/50',
+		selectedAyat === ayat.nomorAyat 
+			? 'border-emerald-500 dark:border-emerald-400 shadow-emerald-300 dark:shadow-emerald-900/70' 
+			: ''
 	)}
 >
 	<!-- Ayat Number Badge -->
-	<div class="bg-gradient-to-r from-emerald-500 to-teal-500 px-6 py-4">
+	<div class="bg-gradient-to-r from-emerald-500 to-teal-500 dark:from-emerald-600 dark:to-teal-600 px-6 py-4">
 		<div class="flex items-center justify-between">
 			<div class="flex items-center space-x-3">
 				<div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
@@ -141,11 +145,11 @@
 		<!-- Arabic Text -->
 		{#if $quranSettings.showArabicText}
 			<div id="ayat-arabic-{ayat.nomorAyat}" class="text-right mb-8">
-				<p class="text-3xl md:text-4xl leading-relaxed font-arabic text-gray-900 mb-4" dir="rtl">
+				<p class="text-3xl md:text-4xl leading-relaxed font-arabic text-gray-900 dark:text-gray-100 mb-4" dir="rtl">
 					{ayat.teksArab}
 				</p>
 				<div
-					class="w-full h-px bg-gradient-to-r from-transparent via-emerald-200 to-transparent"
+					class="w-full h-px bg-gradient-to-r from-transparent via-emerald-200 dark:via-emerald-700 to-transparent"
 				></div>
 			</div>
 		{/if}
@@ -154,14 +158,14 @@
 		{#if $quranSettings.showTransliteration}
 			<div id="ayat-latin-{ayat.nomorAyat}" class="mb-6">
 				<div class="flex items-center mb-3">
-					<div class="w-6 h-6 bg-emerald-100 rounded-full flex items-center justify-center mr-3">
-						<div class="w-2 h-2 bg-emerald-600 rounded-full"></div>
+					<div class="w-6 h-6 bg-emerald-100 dark:bg-emerald-800 rounded-full flex items-center justify-center mr-3">
+						<div class="w-2 h-2 bg-emerald-600 dark:bg-emerald-400 rounded-full"></div>
 					</div>
-					<p class="text-sm text-emerald-700 uppercase tracking-wide font-semibold">
+					<p class="text-sm text-emerald-700 dark:text-emerald-300 uppercase tracking-wide font-semibold">
 						Transliterasi
 					</p>
 				</div>
-				<p class="text-lg italic text-gray-700 leading-relaxed bg-emerald-50 p-4 rounded-xl">
+				<p class="text-lg italic text-gray-700 dark:text-gray-300 leading-relaxed bg-emerald-50 dark:bg-emerald-900/20 p-4 rounded-xl">
 					{ayat.teksLatin}
 				</p>
 			</div>
@@ -171,12 +175,12 @@
 		{#if $quranSettings.showTranslation}
 			<div id="ayat-translation-{ayat.nomorAyat}">
 				<div class="flex items-center mb-3">
-					<div class="w-6 h-6 bg-teal-100 rounded-full flex items-center justify-center mr-3">
-						<div class="w-2 h-2 bg-teal-600 rounded-full"></div>
+					<div class="w-6 h-6 bg-teal-100 dark:bg-teal-800 rounded-full flex items-center justify-center mr-3">
+						<div class="w-2 h-2 bg-teal-600 dark:bg-teal-400 rounded-full"></div>
 					</div>
-					<p class="text-sm text-teal-700 uppercase tracking-wide font-semibold">Terjemahan</p>
+					<p class="text-sm text-teal-700 dark:text-teal-300 uppercase tracking-wide font-semibold">Terjemahan</p>
 				</div>
-				<p class="text-lg text-gray-800 leading-relaxed bg-teal-50 p-4 rounded-xl">
+				<p class="text-lg text-gray-800 dark:text-gray-200 leading-relaxed bg-teal-50 dark:bg-teal-900/20 p-4 rounded-xl">
 					{ayat.teksIndonesia}
 				</p>
 			</div>

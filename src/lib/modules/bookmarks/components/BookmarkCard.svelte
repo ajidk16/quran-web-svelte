@@ -18,8 +18,9 @@
 		delete: string;
 		updateNote: { id: string; note: string };
 		goToVerse: { surah: number; verse: number };
-	}>();  let isEditing = $state(false);
-  let editedNote = $state(bookmark.note || '');
+	}>();
+	let isEditing = $state(false);
+	let editedNote = $state(bookmark.note || '');
 
 	function handleDelete() {
 		dispatch('delete', bookmark.id);
@@ -54,9 +55,8 @@
 
 <div
 	class={cn(
-		'rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 backdrop-blur-sm',
-		themeClasses.card,
-		themeClasses.cardHover
+		'rounded-2xl overflow-hidden transition-all duration-300 transform backdrop-blur-sm',
+		themeClasses.card
 	)}
 >
 	<!-- Header with Surah and Verse info -->
@@ -170,8 +170,7 @@
 							<button
 								on:click={saveNote}
 								class={cn(
-									'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md hover:shadow-lg',
-									'transform hover:scale-105',
+									'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md',
 									themeClasses.buttonPrimary
 								)}
 							>
@@ -205,11 +204,7 @@
 							{#if showActions}
 								<button
 									on:click={handleEdit}
-									class={cn(
-										'p-2 rounded-lg transition-colors group',
-										themeClasses.bgTertiary,
-										'hover:bg-opacity-80'
-									)}
+									class={cn('p-2 rounded-lg transition-colors', themeClasses.bgTertiary)}
 									title={$t('bookmarks.card.editNote')}
 								>
 									<Edit3
@@ -265,7 +260,7 @@
 						themeClasses.buttonPrimary
 					)}
 				>
-					<ExternalLink size={18} class="group-hover:rotate-12 transition-transform" />
+					<ExternalLink size={18} class="transition-transform" />
 					<span>{$t('bookmarks.card.goToVerse')}</span>
 				</button>
 				<button
@@ -273,10 +268,10 @@
 					class={cn(
 						'flex items-center gap-2 px-6 py-3 rounded-xl',
 						'text-sm font-semibold transition-all duration-200 shadow-md',
-						'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'
+						'bg-gradient-to-r from-red-500 to-red-600'
 					)}
 				>
-					<Trash2 size={18} class="group-hover:rotate-12 transition-transform" />
+					<Trash2 size={18} class="transition-transform" />
 					<span class="hidden sm:inline">{$t('bookmarks.card.delete')}</span>
 				</button>
 			</div>

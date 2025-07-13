@@ -61,7 +61,7 @@
 	}
 </script>
 
-<div class="bg-white rounded-lg shadow-md">
+<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md">
 	<div class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white p-4 rounded-t-lg">
 		<div class="flex items-center gap-3">
 			<Book size={24} />
@@ -76,15 +76,17 @@
 		<!-- Audio Settings -->
 		<div class="space-y-4">
 			<div class="flex items-center gap-2 mb-4">
-				<Volume2 size={20} class="text-indigo-600" />
-				<h4 class="font-semibold text-gray-900">Audio & Recitation</h4>
+				<Volume2 size={20} class="text-indigo-600 dark:text-indigo-400" />
+				<h4 class="font-semibold text-gray-900 dark:text-slate-100">Audio & Recitation</h4>
 			</div>
 
 			<!-- Autoplay Toggle -->
 			<div class="flex items-center justify-between">
 				<div>
-					<h5 class="font-medium text-gray-900">Autoplay Recitation</h5>
-					<p class="text-sm text-gray-600">Automatically play verse recitation</p>
+					<h5 class="font-medium text-gray-900 dark:text-slate-200">Autoplay Recitation</h5>
+					<p class="text-sm text-gray-600 dark:text-slate-400">
+						Automatically play verse recitation
+					</p>
 				</div>
 				<label class="relative inline-flex items-center cursor-pointer">
 					<input
@@ -94,18 +96,18 @@
 						class="sr-only peer"
 					/>
 					<div
-						class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"
+						class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-indigo-300 dark:peer-focus:ring-indigo-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"
 					></div>
 				</label>
 			</div>
 
 			<!-- Reciter Selection -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Selected Reciter</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Selected Reciter</h5>
 				<select
 					value={$quranSettings?.reciterId || 'abdul-rahman-al-sudais'}
 					onchange={(e) => updateQuranSettings({ reciterId: e.currentTarget.value })}
-					class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+					class="w-full bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 				>
 					{#each reciters as reciter}
 						<option value={reciter.id}>{reciter.name} ({reciter.country})</option>
@@ -115,25 +117,25 @@
 
 			<!-- Favorite Reciters -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Favorite Reciters</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Favorite Reciters</h5>
 				<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
 					{#each reciters as reciter}
 						<label
-							class="flex items-center gap-2 p-2 border rounded-md cursor-pointer hover:bg-gray-50"
+							class="flex items-center gap-2 p-2 border border-gray-200 dark:border-slate-700 rounded-md cursor-pointer hover:bg-gray-50 dark:hover:bg-slate-700"
 						>
 							<input
 								type="checkbox"
 								checked={$quranSettings?.favoriteReciters?.includes(reciter.id) || false}
 								onchange={() => toggleFavoriteReciter(reciter.id)}
-								class="text-indigo-600 rounded focus:ring-indigo-500"
+								class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 							/>
 							<Star
 								size={16}
 								class={$quranSettings?.favoriteReciters?.includes(reciter.id)
 									? 'text-yellow-500 fill-current'
-									: 'text-gray-400'}
+									: 'text-gray-400 dark:text-slate-500'}
 							/>
-							<span class="text-sm">{reciter.name}</span>
+							<span class="text-sm text-gray-800 dark:text-slate-300">{reciter.name}</span>
 						</label>
 					{/each}
 				</div>
@@ -141,12 +143,12 @@
 
 			<!-- Playback Speed -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Playback Speed</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Playback Speed</h5>
 				<select
 					value={$quranSettings?.playbackSpeed || 1.0}
 					onchange={(e) =>
 						updateQuranSettings({ playbackSpeed: parseFloat(e.currentTarget.value) })}
-					class="w-full sm:w-auto min-w-[150px] border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+					class="w-full sm:w-auto min-w-[150px] bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 				>
 					{#each playbackSpeeds as speed}
 						<option value={speed.value}>{speed.label}</option>
@@ -156,11 +158,11 @@
 
 			<!-- Repeat Mode -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Repeat Mode</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Repeat Mode</h5>
 				<select
 					value={$quranSettings?.repeatMode || 'none'}
 					onchange={(e) => updateQuranSettings({ repeatMode: e.currentTarget.value as any })}
-					class="w-full sm:w-auto min-w-[150px] border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+					class="w-full sm:w-auto min-w-[150px] bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 				>
 					<option value="none">No Repeat</option>
 					<option value="verse">Repeat Verse</option>
@@ -170,20 +172,20 @@
 		</div>
 
 		<!-- Display Settings -->
-		<div class="space-y-4 pt-6 border-t border-gray-200">
+		<div class="space-y-4 pt-6 border-t border-gray-200 dark:border-slate-700">
 			<div class="flex items-center gap-2 mb-4">
-				<Type size={20} class="text-indigo-600" />
-				<h4 class="font-semibold text-gray-900">Display & Text</h4>
+				<Type size={20} class="text-indigo-600 dark:text-indigo-400" />
+				<h4 class="font-semibold text-gray-900 dark:text-slate-100">Display & Text</h4>
 			</div>
 
 			<!-- Translation Language -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Translation Language</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Translation Language</h5>
 				<select
 					value={$quranSettings?.translationLanguage || 'id'}
 					onchange={(e) =>
 						updateQuranSettings({ translationLanguage: e.currentTarget.value as any })}
-					class="w-full sm:w-auto min-w-[200px] border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+					class="w-full sm:w-auto min-w-[200px] bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 				>
 					<option value="id">Bahasa Indonesia</option>
 					<option value="en">English</option>
@@ -193,11 +195,11 @@
 
 			<!-- Default Translation -->
 			<div class="space-y-3">
-				<h5 class="font-medium text-gray-900">Default Translation</h5>
+				<h5 class="font-medium text-gray-900 dark:text-slate-200">Default Translation</h5>
 				<select
 					value={$quranSettings?.defaultTranslation || 'id-indonesian'}
 					onchange={(e) => updateQuranSettings({ defaultTranslation: e.currentTarget.value })}
-					class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+					class="w-full bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 				>
 					{#each translations as translation}
 						<option value={translation.id}>{translation.name} - {translation.author}</option>
@@ -208,30 +210,34 @@
 			<!-- Text Display Options -->
 			<div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 				<div class="flex items-center justify-between">
-					<label for="show-arabic" class="text-sm font-medium text-gray-700">Show Arabic Text</label
+					<label for="show-arabic" class="text-sm font-medium text-gray-700 dark:text-slate-300"
+						>Show Arabic Text</label
 					>
 					<input
 						id="show-arabic"
 						type="checkbox"
 						checked={$quranSettings?.showArabicText}
 						onchange={(e) => updateQuranSettings({ showArabicText: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label for="show-translation" class="text-sm font-medium text-gray-700"
-						>Show Translation</label
+					<label
+						for="show-translation"
+						class="text-sm font-medium text-gray-700 dark:text-slate-300">Show Translation</label
 					>
 					<input
 						id="show-translation"
 						type="checkbox"
 						checked={$quranSettings?.showTranslation}
 						onchange={(e) => updateQuranSettings({ showTranslation: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label for="show-transliteration" class="text-sm font-medium text-gray-700"
+					<label
+						for="show-transliteration"
+						class="text-sm font-medium text-gray-700 dark:text-slate-300"
 						>Show Transliteration</label
 					>
 					<input
@@ -239,7 +245,7 @@
 						type="checkbox"
 						checked={$quranSettings?.showTransliteration}
 						onchange={(e) => updateQuranSettings({ showTransliteration: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 			</div>
@@ -247,12 +253,12 @@
 			<!-- Text Size Controls -->
 			<div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
 				<div class="space-y-3">
-					<h5 class="font-medium text-gray-900">Arabic Text Size</h5>
+					<h5 class="font-medium text-gray-900 dark:text-slate-200">Arabic Text Size</h5>
 					<select
 						value={$quranSettings?.arabicTextSize || 3}
 						onchange={(e) =>
 							updateQuranSettings({ arabicTextSize: parseInt(e.currentTarget.value) })}
-						class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+						class="w-full bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 					>
 						{#each textSizes as size}
 							<option value={size.value}>{size.label}</option>
@@ -260,12 +266,12 @@
 					</select>
 				</div>
 				<div class="space-y-3">
-					<h5 class="font-medium text-gray-900">Translation Text Size</h5>
+					<h5 class="font-medium text-gray-900 dark:text-slate-200">Translation Text Size</h5>
 					<select
 						value={$quranSettings?.translationTextSize || 3}
 						onchange={(e) =>
 							updateQuranSettings({ translationTextSize: parseInt(e.currentTarget.value) })}
-						class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+						class="w-full bg-white dark:bg-slate-700 dark:text-slate-200 border border-gray-300 dark:border-slate-600 rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
 					>
 						{#each textSizes as size}
 							<option value={size.value}>{size.label}</option>
@@ -276,51 +282,57 @@
 		</div>
 
 		<!-- Reading Experience -->
-		<div class="space-y-4 pt-6 border-t border-gray-200">
+		<div class="space-y-4 pt-6 border-t border-gray-200 dark:border-slate-700">
 			<div class="flex items-center gap-2 mb-4">
-				<Settings2 size={20} class="text-indigo-600" />
-				<h4 class="font-semibold text-gray-900">Reading Experience</h4>
+				<Settings2 size={20} class="text-indigo-600 dark:text-indigo-400" />
+				<h4 class="font-semibold text-gray-900 dark:text-slate-100">Reading Experience</h4>
 			</div>
 
 			<!-- Reading Features -->
-			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 				<div class="flex items-center justify-between">
-					<label for="night-mode" class="text-sm font-medium text-gray-700">Night Mode</label>
+					<label for="night-mode" class="text-sm font-medium text-gray-700 dark:text-slate-300"
+						>Night Mode</label
+					>
 					<input
 						id="night-mode"
 						type="checkbox"
 						checked={$quranSettings?.nightMode || false}
 						onchange={(e) => updateQuranSettings({ nightMode: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label for="highlight-verse" class="text-sm font-medium text-gray-700">Highlight Current Verse</label>
+					<label for="highlight-verse" class="text-sm font-medium text-gray-700 dark:text-slate-300"
+						>Highlight Current Verse</label
+					>
 					<input
 						id="highlight-verse"
 						type="checkbox"
 						checked={$quranSettings?.highlightCurrentVerse || true}
 						onchange={(e) =>
 							updateQuranSettings({ highlightCurrentVerse: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label for="auto-scroll" class="text-sm font-medium text-gray-700">Auto Scroll</label>
+					<label for="auto-scroll" class="text-sm font-medium text-gray-700 dark:text-slate-300"
+						>Auto Scroll</label
+					>
 					<input
 						id="auto-scroll"
 						type="checkbox"
 						checked={$quranSettings?.autoScroll || true}
 						onchange={(e) => updateQuranSettings({ autoScroll: e.currentTarget.checked })}
-						class="text-indigo-600 rounded focus:ring-indigo-500"
+						class="text-indigo-600 rounded focus:ring-indigo-500 bg-gray-100 dark:bg-slate-600 border-gray-300 dark:border-slate-500"
 					/>
 				</div>
 			</div>
 
 			<!-- Last Read Info -->
-			<div class="bg-gray-50 rounded-lg p-4">
-				<h5 class="font-medium text-gray-900 mb-2">Reading Progress</h5>
-				<div class="text-sm text-gray-600 space-y-1">
+			<div class="bg-gray-50 dark:bg-slate-900 rounded-lg p-4">
+				<h5 class="font-medium text-gray-900 dark:text-slate-200 mb-2">Reading Progress</h5>
+				<div class="text-sm text-gray-600 dark:text-slate-400 space-y-1">
 					<p>
 						<strong>Last Read:</strong> Surah {$quranSettings?.lastReadSurah || 1}, Verse {$quranSettings?.lastReadVerse ||
 							1}
@@ -335,7 +347,9 @@
 		</div>
 
 		<!-- Action Buttons -->
-		<div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200">
+		<div
+			class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-gray-200 dark:border-slate-700"
+		>
 			<button
 				onclick={handleReset}
 				class="flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"

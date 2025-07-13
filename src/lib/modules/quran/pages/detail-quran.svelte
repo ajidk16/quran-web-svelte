@@ -13,6 +13,7 @@
 	import FloatingNavigation from '../components/FloatingNavigation.svelte';
 	import LoadingSpinner from '../components/LoadingSpinner.svelte';
 	import ErrorMessage from '../components/ErrorMessage.svelte';
+	import { Toast } from '$lib/components/shared';
 
 	// State variables
 	let selectedAyat = 1;
@@ -31,6 +32,11 @@
 	let currentAudio: HTMLAudioElement | null = null;
 	let playingAyat: number | null = null;
 	let audioLoading: number | null = null;
+
+	// Toast notification state
+	let showToast = false;
+	let toastMessage = '';
+	let toastType: 'success' | 'error' | 'bookmark' = 'bookmark';
 
 	const slug = page.params.slug;
 
@@ -202,6 +208,22 @@
 	const handleScrollToAyat = (event: CustomEvent) => scrollToAyat(event.detail.ayatNum);
 	const handlePlayAudio = (event: CustomEvent) => playAudio(event.detail.ayatNumber, event.detail.audioUrls);
 	const handleCopyAyat = (event: CustomEvent) => copyAyat(event.detail.ayat);
+
+	// Handle bookmark toggle
+	const handleBookmarkToggle = (event: CustomEvent) => {
+		const { ayat, added, surah: surahName } = event.detail;
+		toastType = 'bookmark';
+		if (added) {
+			toastMessage = `Ayat ${ayat} dari Surah ${surahName} telah ditambahkan ke bookmark`;
+		} else {
+			toastMessage = `Ayat ${ayat} dari Surah ${surahName} telah dihapus dari bookmark`;
+		}
+		showToast = true;
+	};
+
+	const handleToastClose = () => {
+		showToast = false;
+	};
 	const handleOpenSearchModal = () => showSearchModal = true;
 	const handleOpenQuickNav = () => showQuickNav = true;
 	const handleCloseSearchModal = () => showSearchModal = false;
@@ -250,6 +272,7 @@
 						on:scrollToAyat={handleScrollToAyat}
 						on:playAudio={handlePlayAudio}
 						on:copyAyat={handleCopyAyat}
+						on:bookmarkToggled={handleBookmarkToggle}
 					/>
 				{/each}
 			</div>
@@ -293,6 +316,14 @@
 		on:openQuickNav={handleOpenQuickNav}
 	/>
 {/if}
+
+<!-- Toast Notification -->
+<Toast
+	bind:show={showToast}
+	type={toastType}
+	title={toastMessage}
+	on:close={handleToastClose}
+/>
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');

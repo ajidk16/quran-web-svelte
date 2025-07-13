@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
-	import { Bookmark, Copy, Play, Share, Pause } from '@lucide/svelte';
+	import { Bookmark, Copy, Play, Share, Pause, BookmarkCheck } from '@lucide/svelte';
 	import { cn } from '$lib/utils';
 	import type { QuranDataDto } from '../types';
 	import ShareModal from '$lib/modules/quran/components/ShareModal.svelte';
 	import { quranSettings } from '$modules/settings/services';
+	import { toggleBookmark, isBookmarked } from '$lib/modules/bookmarks/store';
 
 	export let ayat: any;
 	export let surah: QuranDataDto | null = null;
@@ -31,6 +32,32 @@
 	function closeShareModal() {
 		showShareModal = false;
 	}
+
+	function handleBookmark() {
+		if (!surah) return;
+		
+		const bookmarkData = {
+			surah: surah.nomor,
+			surahName: surah.nama,
+			surahNameLatin: surah.namaLatin,
+			verse: ayat.nomorAyat,
+			arabicText: ayat.teksArab,
+			translationText: ayat.teksIndonesia,
+			transliterationText: ayat.teksLatin
+		};
+
+		const wasAdded = toggleBookmark(bookmarkData);
+		
+		// Show feedback to user
+		dispatch('bookmarkToggled', { 
+			ayat: ayat.nomorAyat, 
+			added: wasAdded,
+			surah: surah.namaLatin 
+		});
+	}
+
+	// Check if current ayat is bookmarked
+	$: isCurrentlyBookmarked = surah ? isBookmarked(surah.nomor, ayat.nomorAyat) : false;
 </script>
 
 <div
@@ -75,10 +102,20 @@
 					<Copy size={18} class="text-white group-hover:scale-110 transition-transform" />
 				</button>
 				<button
-					class="p-3 rounded-full bg-white/20 hover:bg-white/30 transition-colors duration-200 group"
-					aria-label="Bookmark ayat {ayat.nomorAyat}"
+					onclick={handleBookmark}
+					class={cn(
+						"p-3 rounded-full transition-colors duration-200 group",
+						isCurrentlyBookmarked 
+							? "bg-yellow-400/30 hover:bg-yellow-400/40" 
+							: "bg-white/20 hover:bg-white/30"
+					)}
+					aria-label="{isCurrentlyBookmarked ? 'Hapus bookmark' : 'Bookmark'} ayat {ayat.nomorAyat}"
 				>
-					<Bookmark size={18} class="text-white group-hover:scale-110 transition-transform" />
+					{#if isCurrentlyBookmarked}
+						<BookmarkCheck size={18} class="text-yellow-200 group-hover:scale-110 transition-transform" />
+					{:else}
+						<Bookmark size={18} class="text-white group-hover:scale-110 transition-transform" />
+					{/if}
 				</button>
 				<button
 					onclick={shareAyat}

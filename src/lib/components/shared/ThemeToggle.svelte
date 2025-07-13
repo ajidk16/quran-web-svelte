@@ -54,11 +54,12 @@
 <div class="flex items-center space-x-1">
 	{#each themes as theme}
 		<button
-			on:click={() => setTheme(theme.value)}
+			onclick={() => setTheme(theme.value)}
 			class={getButtonClasses(theme.value)}
 			title={$t(theme.label)}
 			aria-label={$t(theme.label)}
 		>
+			<!-- svelte-ignore svelte_component_deprecated -->
 			<svelte:component this={theme.icon} size={iconSize} />
 			{#if showLabel}
 				<span class="ml-2 text-sm">{$t(theme.label)}</span>

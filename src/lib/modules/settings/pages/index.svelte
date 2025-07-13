@@ -54,37 +54,47 @@
 	<title>Settings - Al-Quran Digital</title>
 </svelte:head>
 
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700">
+<div
+	class="min-h-screen bg-gradient-to-br from-slate-50 via-gray-50 to-blue-50 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700"
+>
 	<div class="container mx-auto px-4 py-8">
 		<div class="max-w-4xl mx-auto">
 			<!-- Header -->
-			<header class="mb-8 relative z-10 bg-transparent">
-				<div class="flex items-center gap-3 mb-2 py-4">
-					<div class="p-2 bg-emerald-100 dark:bg-emerald-800 rounded-full flex-shrink-0">
-						<Settings size={32} class="text-emerald-600 dark:text-emerald-300" />
-					</div>
-					<div class="flex-grow">
-						<h1 class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight">Pengaturan</h1>
-						<p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
-							Sesuaikan pengalaman Al-Quran dan jadwal sholat Anda
-						</p>
-					</div>
+
+			<div class="flex items-center flex-row gap-3 mb-2 py-4">
+				<div class="p-2 bg-emerald-100 dark:bg-emerald-800 rounded-full flex-shrink-0">
+					<Settings size={32} class="text-emerald-600 dark:text-emerald-300" />
 				</div>
-			</header>
+
+				<div>
+					<h1
+						class="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 leading-tight"
+					>
+						Pengaturan
+					</h1>
+					<p class="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-1">
+						Sesuaikan pengalaman Al-Quran dan jadwal sholat Anda
+					</p>
+				</div>
+			</div>
 
 			<!-- Settings Sections -->
 			<div class="space-y-6 settings-container">
 				<AdzanSettings />
 				<QuranSettings />
-				
+
 				<!-- App Settings -->
 				<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
-					<div class="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white p-4">
+					<div
+						class="bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-700 dark:to-indigo-700 text-white p-4"
+					>
 						<div class="flex items-center gap-3">
 							<Palette size={24} />
 							<div>
 								<h3 class="text-lg font-semibold">Pengaturan Aplikasi</h3>
-								<p class="text-blue-100 dark:text-blue-200 text-sm">Tema, bahasa, dan preferensi umum</p>
+								<p class="text-blue-100 dark:text-blue-200 text-sm">
+									Tema, bahasa, dan preferensi umum
+								</p>
 							</div>
 						</div>
 					</div>
@@ -123,8 +133,12 @@
 						<!-- Auto Location -->
 						<div class="flex items-center justify-between">
 							<div>
-								<h4 class="font-medium text-gray-900 dark:text-gray-100">Deteksi Lokasi Otomatis</h4>
-								<p class="text-sm text-gray-600 dark:text-gray-400">Gunakan lokasi perangkat untuk jadwal sholat</p>
+								<h4 class="font-medium text-gray-900 dark:text-gray-100">
+									Deteksi Lokasi Otomatis
+								</h4>
+								<p class="text-sm text-gray-600 dark:text-gray-400">
+									Gunakan lokasi perangkat untuk jadwal sholat
+								</p>
 							</div>
 							<label class="relative inline-flex items-center cursor-pointer">
 								<input
@@ -143,12 +157,16 @@
 
 				<!-- Settings Management -->
 				<div class="bg-white dark:bg-slate-800 rounded-lg shadow-md overflow-hidden">
-					<div class="bg-gradient-to-r from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800 text-white p-4">
+					<div
+						class="bg-gradient-to-r from-gray-600 to-gray-700 dark:from-gray-700 dark:to-gray-800 text-white p-4"
+					>
 						<div class="flex items-center gap-3">
 							<Settings size={24} />
 							<div>
 								<h3 class="text-lg font-semibold">Kelola Pengaturan</h3>
-								<p class="text-gray-100 dark:text-gray-200 text-sm">Backup, restore, dan reset pengaturan</p>
+								<p class="text-gray-100 dark:text-gray-200 text-sm">
+									Backup, restore, dan reset pengaturan
+								</p>
 							</div>
 						</div>
 					</div>
@@ -182,8 +200,12 @@
 
 							<!-- Export Modal -->
 							{#if showExport}
-								<div class="border border-green-300 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20">
-									<h5 class="font-medium mb-2 text-green-800 dark:text-green-300">Export Data Berhasil</h5>
+								<div
+									class="border border-green-300 dark:border-green-600 rounded-lg p-4 bg-green-50 dark:bg-green-900/20"
+								>
+									<h5 class="font-medium mb-2 text-green-800 dark:text-green-300">
+										Export Data Berhasil
+									</h5>
 									<p class="text-sm text-green-700 dark:text-green-400 mb-3">
 										Copy data di bawah dan simpan sebagai backup.
 									</p>
@@ -212,7 +234,9 @@
 
 							<!-- Import Modal -->
 							{#if showImport}
-								<div class="border border-blue-300 dark:border-blue-600 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20">
+								<div
+									class="border border-blue-300 dark:border-blue-600 rounded-lg p-4 bg-blue-50 dark:bg-blue-900/20"
+								>
 									<h5 class="font-medium mb-2 text-blue-800 dark:text-blue-300">Import Settings</h5>
 									<p class="text-sm text-blue-700 dark:text-blue-400 mb-3">
 										Paste data export yang tersimpan sebelumnya.
@@ -294,6 +318,9 @@
 	</div>
 </div>
 
+<!-- Background Services -->
+<AdzanService />
+
 <style>
 	/* Firefox-specific fixes for header visibility */
 	@-moz-document url-prefix() {
@@ -306,41 +333,38 @@
 			margin-bottom: 2rem !important;
 			background: transparent !important;
 		}
-		
+
 		header div {
 			display: flex !important;
 			align-items: center !important;
 		}
-		
+
 		.settings-container > * {
 			margin-top: 1.5rem !important;
 		}
-		
+
 		.settings-container > *:first-child {
 			margin-top: 0 !important;
 		}
 	}
-	
+
 	/* General cross-browser fixes */
 	header {
 		min-height: 100px;
 		margin-bottom: 2rem;
 		isolation: isolate;
 	}
-	
+
 	.settings-container {
 		display: flex;
 		flex-direction: column;
 		gap: 1.5rem;
 		margin-top: 0;
 	}
-	
+
 	/* Ensure proper stacking context */
 	.bg-white {
 		position: relative;
 		z-index: 1;
 	}
 </style>
-
-<!-- Background Services -->
-<AdzanService />

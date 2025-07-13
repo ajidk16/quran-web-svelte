@@ -28,7 +28,7 @@
 	<div class={cn('container mx-auto px-4 py-8', themeClasses.textPrimary)}>
 		<!-- Hero Section -->
 	<section
-		class="text-center py-12 bg-gradient-to-r from-emerald-600 to-emerald-800 dark:from-emerald-700 dark:to-emerald-900 text-white rounded-lg mb-12"
+		class="text-center py-12 bg-gradient-to-r from-emerald-600 to-emerald-800 dark:from-emerald-700 dark:to-emerald-900 text-white rounded-lg mb-12 p-2"
 	>
 		<h1 class="text-4xl md:text-6xl font-bold mb-4">{$t('beranda.welcome')}</h1>
 		<p class="text-xl md:text-2xl mb-8 opacity-90">{$t('beranda.description')}</p>

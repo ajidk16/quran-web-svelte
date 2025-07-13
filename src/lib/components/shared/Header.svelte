@@ -9,6 +9,14 @@
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
 	}
+
+	const navigation = [
+		{ href: '/', label: 'nav.home', icon: '🏠' },
+		{ href: '/quran', label: 'nav.quran', icon: '📖' },
+		{ href: '/prayer-times', label: 'nav.prayer-times', icon: '🕌' },
+		{ href: '/bookmarks', label: 'nav.bookmarks', icon: '🔖' },
+		{ href: '/settings', label: 'nav.settings', icon: '⚙️' }
+	];
 </script>
 
 <header class="bg-emerald-700 dark:bg-emerald-800 text-white shadow-lg sticky top-0 z-50">
@@ -17,7 +25,9 @@
 			<!-- Logo and Title -->
 			<div class="flex items-center space-x-3">
 				<a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
-					<div class="w-8 h-8 bg-white dark:bg-gray-100 rounded-full flex items-center justify-center">
+					<div
+						class="w-8 h-8 bg-white dark:bg-gray-100 rounded-full flex items-center justify-center"
+					>
 						<span class="text-emerald-700 dark:text-emerald-800 font-bold text-lg">ق</span>
 					</div>
 					<span class="font-bold text-xl hidden sm:block">QuranWeb</span>
@@ -26,51 +36,17 @@
 
 			<!-- Desktop Navigation -->
 			<nav class="hidden md:flex space-x-8">
-				<a
-					href="/"
-					class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-					class:bg-emerald-800={$page.url.pathname === '/'}
-					class:dark:bg-emerald-900={$page.url.pathname === '/'}
-				>
-					<span class="text-base">🏠</span>
-					<span>{$t('nav.home')}</span>
-				</a>
-				<a
-					href="/quran"
-					class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-					class:bg-emerald-800={$page.url.pathname === '/quran'}
-					class:dark:bg-emerald-900={$page.url.pathname === '/quran'}
-				>
-					<span class="text-base">📖</span>
-					<span>{$t('nav.quran')}</span>
-				</a>
-				<a
-					href="/prayer-times"
-					class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-					class:bg-emerald-800={$page.url.pathname === '/prayer-times'}
-					class:dark:bg-emerald-900={$page.url.pathname === '/prayer-times'}
-				>
-					<span class="text-base">🕌</span>
-					<span>{$t('nav.prayer-times')}</span>
-				</a>
-				<a
-					href="/bookmarks"
-					class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-					class:bg-emerald-800={$page.url.pathname === '/bookmarks'}
-					class:dark:bg-emerald-900={$page.url.pathname === '/bookmarks'}
-				>
-					<span class="text-base">🔖</span>
-					<span>{$t('nav.bookmarks')}</span>
-				</a>
-				<a
-					href="/settings"
-					class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-					class:bg-emerald-800={$page.url.pathname === '/settings'}
-					class:dark:bg-emerald-900={$page.url.pathname === '/settings'}
-				>
-					<span class="text-base">⚙️</span>
-					<span>{$t('nav.settings')}</span>
-				</a>
+				{#each navigation as item}
+					<a
+						href={item.href}
+						class="flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
+						class:bg-emerald-800={$page.url.pathname === item.href}
+						class:dark:bg-emerald-900={$page.url.pathname === item.href}
+					>
+						<span class="text-base">{item.icon}</span>
+						<span>{$t(item.label)}</span>
+					</a>
+				{/each}
 			</nav>
 
 			<!-- Controls and Search Bar (Desktop) -->
@@ -113,73 +89,28 @@
 		<!-- Mobile Navigation -->
 		{#if mobileMenuOpen}
 			<div class="md:hidden border-t border-emerald-600 dark:border-emerald-700 pt-4 pb-3">
-				<!-- Mobile Search -->
-				<div class="px-3 pb-3">
-					<div class="relative">
-						<input
-							type="text"
-							placeholder="Search Quran..."
-							class="w-full bg-emerald-600 dark:bg-emerald-700 text-white placeholder-emerald-200 dark:placeholder-emerald-300 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 dark:focus:ring-emerald-400 focus:bg-emerald-500 dark:focus:bg-emerald-600"
-						/>
-						<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-							<span class="text-emerald-200 dark:text-emerald-300">🔍</span>
-						</div>
-					</div>
-				</div>
-
 				<!-- Mobile Navigation Items -->
 				<nav class="space-y-1">
-					<a
-						href="/"
-						onclick={() => (mobileMenuOpen = false)}
-						class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-						class:bg-emerald-800={$page.url.pathname === '/'}
-						class:dark:bg-emerald-900={$page.url.pathname === '/'}
-					>
-						<span class="text-lg">🏠</span>
-						<span>Home</span>
-					</a>
-					<a
-						href="/quran"
-						onclick={() => (mobileMenuOpen = false)}
-						class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-						class:bg-emerald-800={$page.url.pathname === '/quran'}
-						class:dark:bg-emerald-900={$page.url.pathname === '/quran'}
-					>
-						<span class="text-lg">📖</span>
-						<span>Al-Quran</span>
-					</a>
-					<a
-						href="/prayer-times"
-						onclick={() => (mobileMenuOpen = false)}
-						class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-						class:bg-emerald-800={$page.url.pathname === '/prayer-times'}
-						class:dark:bg-emerald-900={$page.url.pathname === '/prayer-times'}
-					>
-						<span class="text-lg">🕌</span>
-						<span>Prayer Times</span>
-					</a>
-					<a
-						href="/bookmarks"
-						onclick={() => (mobileMenuOpen = false)}
-						class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-						class:bg-emerald-800={$page.url.pathname === '/bookmarks'}
-						class:dark:bg-emerald-900={$page.url.pathname === '/bookmarks'}
-					>
-						<span class="text-lg">🔖</span>
-						<span>Bookmarks</span>
-					</a>
-					<a
-						href="/settings"
-						onclick={() => (mobileMenuOpen = false)}
-						class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
-						class:bg-emerald-800={$page.url.pathname === '/settings'}
-						class:dark:bg-emerald-900={$page.url.pathname === '/settings'}
-					>
-						<span class="text-lg">⚙️</span>
-						<span>Settings</span>
-					</a>
+					{#each navigation as item}
+						<a
+							href="/"
+							onclick={() => (mobileMenuOpen = false)}
+							class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
+							class:bg-emerald-800={$page.url.pathname === item.href}
+							class:dark:bg-emerald-900={$page.url.pathname === item.href}
+						>
+							<span class="text-lg">{item.icon}</span>
+							<span>{$t(item.label)}</span>
+						</a>
+					{/each}
 				</nav>
+				<!-- Controls -->
+				<div class="flex items-center justify-center space-x-4 mt-4">
+					<!-- Theme Toggle -->
+					<ThemeToggle size="sm" />
+					<!-- Language Toggle -->
+					<LanguageToggle size="sm" />
+				</div>
 			</div>
 		{/if}
 	</div>

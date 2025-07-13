@@ -8,7 +8,6 @@
 	import { cn } from '$lib/utils';
 
 	// Import components
-	import SurahHeader from '../components/SurahHeader.svelte';
 	import AyatCard from '../components/AyatCard.svelte';
 	import SearchModal from '../components/SearchModal.svelte';
 	import QuickNavModal from '../components/QuickNavModal.svelte';
@@ -277,11 +276,7 @@
 	});
 </script>
 
-<main class={cn("min-h-screen", themeClasses.bgSecondary)}>
-	{#if surah}
-		<SurahHeader {surah} />
-	{/if}
-
+<main class={cn('min-h-screen', themeClasses.bgSecondary)}>
 	<div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-5xl">
 		{#if loading}
 			<div class="flex justify-center items-center py-20">
@@ -293,26 +288,19 @@
 			</div>
 		{:else if surah}
 			<!-- Surah Info Card -->
-			<div class={cn("rounded-2xl shadow-lg p-6 mb-8", themeClasses.card)}>
+			<div class={cn('rounded-2xl shadow-lg p-6 mb-8', themeClasses.card)}>
 				<div class="text-center space-y-4">
-					<div class={cn("inline-flex items-center justify-center w-16 h-16 rounded-full mb-4", 
-						$currentTheme === 'dark' ? 'bg-emerald-900' : 'bg-emerald-100')}>
-						<svg
-							class={cn("w-8 h-8", $currentTheme === 'dark' ? 'text-emerald-400' : 'text-emerald-600')}
-							fill="currentColor"
-							viewBox="0 0 24 24"
-						>
-							<path d="M12 2L2 7v10c0 5.55 3.84 9.739 9 11 5.16-1.261 9-5.45 9-11V7l-10-5z" />
-						</svg>
+					<div class={cn('inline-flex items-center justify-center w-16 h-16 text-5xl mb-4')}>
+						{surah.nama}
 					</div>
-					<h1 class={cn("text-2xl sm:text-3xl font-bold", themeClasses.textPrimary)}>
+					<h1 class={cn('text-2xl sm:text-3xl font-bold', themeClasses.textPrimary)}>
 						{surah.namaLatin}
 					</h1>
 					<p class={themeClasses.textSecondary}>
 						{surah.tempatTurun} • {surah.jumlahAyat} Ayat
 					</p>
 					{#if surah.arti}
-						<p class={cn("text-sm italic", themeClasses.textMuted)}>
+						<p class={cn('text-sm italic', themeClasses.textMuted)}>
 							"{surah.arti}"
 						</p>
 					{/if}
@@ -344,7 +332,7 @@
 	</div>
 
 	<!-- Background Pattern -->
-	<div class={cn("fixed inset-0 -z-10", $currentTheme === 'dark' ? 'opacity-10' : 'opacity-5')}>
+	<div class={cn('fixed inset-0 -z-10', $currentTheme === 'dark' ? 'opacity-10' : 'opacity-5')}>
 		<svg class="w-full h-full" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 			<defs>
 				<pattern
@@ -408,15 +396,6 @@
 
 	:global(body) {
 		font-family: 'Inter', sans-serif;
-	}
-
-	/* Theme-aware gradients for detail pages */
-	:global(body.light) main {
-		background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #f1f5f9 100%);
-	}
-	
-	:global(body.dark) main {
-		background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
 	}
 
 	:global(.highlight-ayat) {

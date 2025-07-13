@@ -4,45 +4,6 @@
 		<meta charset="utf-8" />
 		<link rel="icon" href="%sveltekit.assets%/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<meta name="theme-color" content="#ffffff" />
-		<script>
-			// Prevent flash of wrong theme by applying theme class immediately
-			(function() {
-				try {
-					const stored = localStorage.getItem('app-theme');
-					const theme = stored && ['light', 'dark', 'system'].includes(stored) ? stored : 'system';
-					
-					let actualTheme = theme;
-					if (theme === 'system') {
-						actualTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-					}
-					
-					// Apply theme to html
-					document.documentElement.classList.add(actualTheme);
-					document.documentElement.style.colorScheme = actualTheme;
-					document.documentElement.setAttribute('data-theme', actualTheme);
-					
-					// Apply theme to body when it's available
-					document.addEventListener('DOMContentLoaded', function() {
-						document.body.classList.add(actualTheme);
-					});
-					
-					// Update meta theme-color
-					const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-					if (metaThemeColor) {
-						metaThemeColor.setAttribute('content', actualTheme === 'dark' ? '#1f2937' : '#ffffff');
-					}
-				} catch (e) {
-					// Fallback to light theme
-					document.documentElement.classList.add('light');
-					document.documentElement.style.colorScheme = 'light';
-					document.documentElement.setAttribute('data-theme', 'light');
-					document.addEventListener('DOMContentLoaded', function() {
-						document.body.classList.add('light');
-					});
-				}
-			})();
-		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

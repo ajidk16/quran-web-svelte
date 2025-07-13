@@ -285,8 +285,9 @@
 			<!-- Reading Features -->
 			<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 				<div class="flex items-center justify-between">
-					<label class="text-sm font-medium text-gray-700">Night Mode</label>
+					<label for="night-mode" class="text-sm font-medium text-gray-700">Night Mode</label>
 					<input
+						id="night-mode"
 						type="checkbox"
 						checked={$quranSettings?.nightMode || false}
 						onchange={(e) => updateQuranSettings({ nightMode: e.currentTarget.checked })}
@@ -294,8 +295,9 @@
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label class="text-sm font-medium text-gray-700">Highlight Current Verse</label>
+					<label for="highlight-verse" class="text-sm font-medium text-gray-700">Highlight Current Verse</label>
 					<input
+						id="highlight-verse"
 						type="checkbox"
 						checked={$quranSettings?.highlightCurrentVerse || true}
 						onchange={(e) =>
@@ -304,8 +306,9 @@
 					/>
 				</div>
 				<div class="flex items-center justify-between">
-					<label class="text-sm font-medium text-gray-700">Auto Scroll</label>
+					<label for="auto-scroll" class="text-sm font-medium text-gray-700">Auto Scroll</label>
 					<input
+						id="auto-scroll"
 						type="checkbox"
 						checked={$quranSettings?.autoScroll || true}
 						onchange={(e) => updateQuranSettings({ autoScroll: e.currentTarget.checked })}

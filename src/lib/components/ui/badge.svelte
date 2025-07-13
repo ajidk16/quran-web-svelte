@@ -1,26 +1,38 @@
 <script lang="ts">
+	import { currentTheme, themeUtils } from '$lib/utils/theme';
+
 	type BadgeColor = 'blue' | 'gray' | 'red' | 'green' | 'yellow' | 'indigo' | 'purple' | 'pink';
 	type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
 	type BadgeRounded = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'full';
 
-	export let text: string = 'Badge';
-	export let color: BadgeColor = 'blue';
-	export let rounded: BadgeRounded = 'md';
-	export let size: BadgeSize = 'xs';
-	export let className: string = '';
-	// Tipe icon agar bisa menerima file svg (Svelte component) dan lucide svelte
-	export let icon: any | undefined = undefined;
+	const {
+		text = 'Badge',
+		color = 'blue',
+		rounded = 'md',
+		size = 'xs',
+		className = '',
+		icon = undefined
+	}: {
+		text?: string;
+		color?: BadgeColor;
+		rounded?: BadgeRounded;
+		size?: BadgeSize;
+		className?: string;
+		icon?: any;
+	} = $props();
 
-	const colorClasses: Record<BadgeColor, string> = {
+	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
+
+	const colorClasses = $derived({
 		blue: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300',
-		gray: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300',
+		gray: `${themeClasses.bgSecondary} ${themeClasses.textSecondary}`,
 		red: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300',
 		green: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
 		yellow: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300',
 		indigo: 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300',
 		purple: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300',
 		pink: 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300'
-	};
+	});
 
 	const sizeClasses: Record<BadgeSize, string> = {
 		xs: 'text-xs px-1 py-0.5',

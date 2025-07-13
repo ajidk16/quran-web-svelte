@@ -1,4 +1,12 @@
-<div class="container mx-auto px-4 py-8">
+<script lang="ts">
+	import { currentTheme, themeUtils } from '$lib/utils/theme';
+	import { t } from '$lib/utils/i18n';
+	import { cn } from '$lib/utils';
+
+	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
+</script>
+
+<div class={cn("container mx-auto px-4 py-8", themeClasses.bgPrimary)}>
 	<!-- Hero Section -->
 	<section class="text-center py-12 bg-gradient-to-r from-emerald-600 to-emerald-800 text-white rounded-lg mb-12">
 		<h1 class="text-4xl md:text-6xl font-bold mb-4">QuranWeb</h1>
@@ -15,31 +23,31 @@
 
 	<!-- Features Grid -->
 	<section class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-		<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+		<div class={cn("p-6 rounded-lg shadow-md", themeClasses.card)}>
 			<div class="text-3xl mb-4">📖</div>
-			<h3 class="text-xl font-semibold mb-2">Complete Quran</h3>
-			<p class="text-gray-600">Access all 114 chapters with beautiful Arabic text and translations.</p>
+			<h3 class={cn("text-xl font-semibold mb-2", themeClasses.textPrimary)}>Complete Quran</h3>
+			<p class={themeClasses.textSecondary}>Access all 114 chapters with beautiful Arabic text and translations.</p>
 		</div>
-		<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+		<div class={cn("p-6 rounded-lg shadow-md", themeClasses.card)}>
 			<div class="text-3xl mb-4">🕌</div>
-			<h3 class="text-xl font-semibold mb-2">Prayer Times</h3>
-			<p class="text-gray-600">Never miss a prayer with accurate timing for your location.</p>
+			<h3 class={cn("text-xl font-semibold mb-2", themeClasses.textPrimary)}>Prayer Times</h3>
+			<p class={themeClasses.textSecondary}>Never miss a prayer with accurate timing for your location.</p>
 		</div>
-		<div class="bg-white p-6 rounded-lg shadow-md border border-gray-200">
+		<div class={cn("p-6 rounded-lg shadow-md", themeClasses.card)}>
 			<div class="text-3xl mb-4">🔖</div>
-			<h3 class="text-xl font-semibold mb-2">Bookmarks</h3>
-			<p class="text-gray-600">Save your favorite verses and continue reading where you left off.</p>
+			<h3 class={cn("text-xl font-semibold mb-2", themeClasses.textPrimary)}>Bookmarks</h3>
+			<p class={themeClasses.textSecondary}>Save your favorite verses and continue reading where you left off.</p>
 		</div>
 	</section>
 
 	<!-- Daily Verse -->
-	<section class="bg-emerald-50 p-8 rounded-lg border border-emerald-200">
-		<h2 class="text-2xl font-bold text-emerald-800 mb-4 text-center">Verse of the Day</h2>
+	<section class={cn("p-8 rounded-lg border", "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-700/50")}>
+		<h2 class="text-2xl font-bold text-emerald-800 dark:text-emerald-200 mb-4 text-center">Verse of the Day</h2>
 		<div class="text-center">
-			<p class="text-lg text-gray-700 mb-4 leading-relaxed">
+			<p class={cn("text-lg mb-4 leading-relaxed", themeClasses.textPrimary)}>
 				"And whoever relies upon Allah - then He is sufficient for him. Indeed, Allah will accomplish His purpose."
 			</p>
-			<p class="text-emerald-700 font-semibold">— Surah At-Talaq, Verse 3</p>
+			<p class="text-emerald-700 dark:text-emerald-300 font-semibold">— Surah At-Talaq, Verse 3</p>
 		</div>
 	</section>
 </div>

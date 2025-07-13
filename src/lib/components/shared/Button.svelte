@@ -1,22 +1,35 @@
 <script lang="ts">
     import { cn } from '$lib/utils/cn';
+    import { currentTheme, themeUtils } from '$lib/utils/theme';
 
-    export let variant: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' = 'default';
-    export let size: 'default' | 'sm' | 'lg' | 'icon' = 'default';
-    export let disabled = false;
-    export let loading = false;
-    export let type: 'button' | 'submit' | 'reset' = 'button';
-    export let className = '';
-    export let onclick: (event: MouseEvent) => void;
+    const {
+        variant = 'default',
+        size = 'default',
+        disabled = false,
+        loading = false,
+        type = 'button',
+        className = '',
+        onclick
+    }: {
+        variant?: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link';
+        size?: 'default' | 'sm' | 'lg' | 'icon';
+        disabled?: boolean;
+        loading?: boolean;
+        type?: 'button' | 'submit' | 'reset';
+        className?: string;
+        onclick?: (event: MouseEvent) => void;
+    } = $props();
 
-    const variants = {
+    const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
+
+    const variants = $derived({
         default: 'bg-emerald-600 text-white hover:bg-emerald-700 focus:ring-emerald-500',
         destructive: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-        outline: 'border border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
-        secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500',
-        ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+        outline: `border ${themeClasses.border} bg-transparent ${themeClasses.textSecondary} hover:${themeClasses.bgSecondary} focus:ring-gray-500`,
+        secondary: `${themeClasses.bgSecondary} ${themeClasses.textPrimary} hover:${themeClasses.bgTertiary} focus:ring-gray-500`,
+        ghost: `bg-transparent ${themeClasses.textSecondary} hover:${themeClasses.bgSecondary} focus:ring-gray-500`,
         link: 'bg-transparent text-emerald-600 hover:text-emerald-700 underline-offset-4 hover:underline focus:ring-emerald-500'
-    };
+    });
 
     const sizes = {
         default: 'h-10 px-4 py-2 text-sm',
@@ -25,13 +38,13 @@
         icon: 'h-10 w-10 p-0'
     };
 
-    $: classes = cn(
+    const classes = $derived(cn(
         'inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
         variants[variant],
         sizes[size],
         loading && 'cursor-wait',
         className
-    );
+    ));
 </script>
 
 <button

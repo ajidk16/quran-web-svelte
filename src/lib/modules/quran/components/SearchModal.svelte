@@ -3,15 +3,27 @@
 	import { browser } from '$app/environment';
 	import type { QuranDataDto } from '../types';
 
-	export let show: boolean = false;
-	export let surah: QuranDataDto | null = null;
-	export let searchQuery: string = '';
-	export let filteredAyats: any[] = [];
-	export let showSearchResults: boolean = false;
-	export let showAdvancedFilter: boolean = false;
-	export let filterByRange: boolean = false;
-	export let rangeStart: number = 1;
-	export let rangeEnd: number = 1;
+	let {
+		show = $bindable(false),
+		surah = null,
+		searchQuery = $bindable(''),
+		filteredAyats = $bindable([]),
+		showSearchResults = $bindable(false),
+		showAdvancedFilter = $bindable(false),
+		filterByRange = $bindable(false),
+		rangeStart = $bindable(1),
+		rangeEnd = $bindable(1)
+	}: {
+		show?: boolean;
+		surah?: QuranDataDto | null;
+		searchQuery?: string;
+		filteredAyats?: any[];
+		showSearchResults?: boolean;
+		showAdvancedFilter?: boolean;
+		filterByRange?: boolean;
+		rangeStart?: number;
+		rangeEnd?: number;
+	} = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -45,14 +57,16 @@
 	}
 
 	// Auto-focus search input when modal opens
-	$: if (show && browser) {
-		setTimeout(() => {
-			const searchInput = document.getElementById('modal-ayat-search');
-			if (searchInput) {
-				searchInput.focus();
-			}
-		}, 100);
-	}
+	$effect(() => {
+		if (show && browser) {
+			setTimeout(() => {
+				const searchInput = document.getElementById('modal-ayat-search');
+				if (searchInput) {
+					searchInput.focus();
+				}
+			}, 100);
+		}
+	});
 </script>
 
 {#if show}

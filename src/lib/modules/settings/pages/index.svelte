@@ -12,12 +12,17 @@
 	import AdzanService from '$lib/modules/settings/components/AdzanService.svelte';
 	import QuranSettings from '$lib/modules/settings/components/QuranSettings.svelte';
 	import { Settings, Download, Upload, RotateCcw, Globe, Palette, Book } from '@lucide/svelte';
+	import { currentTheme, themeUtils } from '$lib/utils/theme';
+	import { t } from '$lib/utils/i18n';
+	import { cn } from '$lib/utils';
 
 	let showDebug = $state(false);
 	let exportData = $state('');
 	let importData = $state('');
 	let showExport = $state(false);
 	let showImport = $state(false);
+
+	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
 
 	function handleExport() {
 		exportData = exportSettings();

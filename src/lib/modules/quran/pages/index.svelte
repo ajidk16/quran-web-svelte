@@ -34,28 +34,28 @@
 </script>
 
 <!-- Hero Section -->
-<div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-blue-50 py-16">
+<div class="bg-gradient-to-br from-emerald-50 via-teal-50 to-blue-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-16">
 	<div class="container mx-auto px-6 text-center">
 		<div class="mb-8">
-			<h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-4">Al-Qur'an</h1>
-			<p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+			<h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4">Al-Qur'an</h1>
+			<p class="text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed">
 				Bacalah dengan mudah dan khusyuk. Temukan kedamaian dalam setiap ayat yang suci.
 			</p>
 		</div>
 
 		<!-- Stats -->
 		<div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-			<div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-				<div class="text-3xl font-bold text-emerald-600 mb-2">114</div>
-				<p class="text-gray-600">Surah</p>
+			<div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+				<div class="text-3xl font-bold text-emerald-600 dark:text-emerald-400 mb-2">114</div>
+				<p class="text-gray-600 dark:text-gray-300">Surah</p>
 			</div>
-			<div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-				<div class="text-3xl font-bold text-teal-600 mb-2">6,236</div>
-				<p class="text-gray-600">Ayat</p>
+			<div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+				<div class="text-3xl font-bold text-teal-600 dark:text-teal-400 mb-2">6,236</div>
+				<p class="text-gray-600 dark:text-gray-300">Ayat</p>
 			</div>
-			<div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
-				<div class="text-3xl font-bold text-blue-600 mb-2">30</div>
-				<p class="text-gray-600">Juz</p>
+			<div class="bg-white/60 dark:bg-gray-800/60 backdrop-blur-sm rounded-xl p-6 shadow-lg">
+				<div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">30</div>
+				<p class="text-gray-600 dark:text-gray-300">Juz</p>
 			</div>
 		</div>
 	</div>
@@ -66,18 +66,18 @@
 	{#if $quranStore.loading}
 		<div class="flex flex-col items-center justify-center py-20">
 			<div class="relative">
-				<div class="w-16 h-16 border-4 border-emerald-200 rounded-full animate-spin"></div>
+				<div class="w-16 h-16 border-4 border-emerald-200 dark:border-gray-600 rounded-full animate-spin"></div>
 				<div
-					class="w-16 h-16 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
+					class="w-16 h-16 border-4 border-emerald-600 dark:border-emerald-400 border-t-transparent rounded-full animate-spin absolute top-0 left-0"
 				></div>
 			</div>
-			<p class="text-gray-600 mt-4 text-lg">Memuat daftar surah...</p>
+			<p class="text-gray-600 dark:text-gray-300 mt-4 text-lg">Memuat daftar surah...</p>
 		</div>
 	{:else if $quranStore.error}
-		<div class="bg-red-50 border border-red-200 rounded-xl p-8 text-center max-w-md mx-auto">
-			<div class="text-red-500 text-5xl mb-4">⚠️</div>
-			<h3 class="text-lg font-semibold text-red-800 mb-2">Terjadi Kesalahan</h3>
-			<p class="text-red-600">{$quranStore.error}</p>
+		<div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-8 text-center max-w-md mx-auto">
+			<div class="text-red-500 dark:text-red-400 text-5xl mb-4">⚠️</div>
+			<h3 class="text-lg font-semibold text-red-800 dark:text-red-400 mb-2">Terjadi Kesalahan</h3>
+			<p class="text-red-600 dark:text-red-300">{$quranStore.error}</p>
 		</div>
 	{:else}
 		<!-- Search and Filter Section -->
@@ -86,7 +86,7 @@
 				<input
 					type="text"
 					placeholder="Cari surah..."
-					class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent outline-none"
+					class="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-emerald-500 dark:focus:ring-emerald-400 focus:border-transparent outline-none"
 				/>
 			</div>
 		</div>
@@ -105,7 +105,7 @@
 						translation={surah.arti}
 						revelation={surah.tempatTurun}
 						ayat={surah.jumlahAyat}
-						class="h-full bg-gradient-to-br from-white to-gray-50 border-2 border-transparent group-hover:border-emerald-200 group-hover:shadow-lg transition-all duration-300"
+						class="h-full bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border-2 border-transparent group-hover:border-emerald-200 dark:group-hover:border-emerald-600 group-hover:shadow-lg transition-all duration-300"
 					/>
 				</button>
 			{/each}
@@ -114,7 +114,7 @@
 		<!-- Load More Button -->
 		<div class="text-center mt-12">
 			<button
-				class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-8 py-3 rounded-xl font-medium hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 shadow-lg hover:shadow-xl"
+				class="bg-gradient-to-r from-emerald-600 to-teal-600 dark:from-emerald-500 dark:to-teal-500 text-white px-8 py-3 rounded-xl font-medium hover:from-emerald-700 hover:to-teal-700 dark:hover:from-emerald-600 dark:hover:to-teal-600 transition-all duration-300 shadow-lg hover:shadow-xl"
 			>
 				Muat Lebih Banyak
 			</button>

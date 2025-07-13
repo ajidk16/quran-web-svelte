@@ -3,8 +3,13 @@
 	import { browser } from '$app/environment';
 	import type { QuranDataDto } from '../types';
 
-	export let show: boolean = false;
-	export let surah: QuranDataDto | null = null;
+	let {
+		show = $bindable(false),
+		surah = null
+	}: {
+		show?: boolean;
+		surah?: QuranDataDto | null;
+	} = $props();
 
 	const dispatch = createEventDispatcher();
 
@@ -29,12 +34,14 @@
 	}
 
 	// Auto-focus input when modal opens
-	$: if (show && browser) {
-		setTimeout(() => {
-			const input = document.getElementById('quick-nav-input');
-			if (input) input.focus();
-		}, 100);
-	}
+	$effect(() => {
+		if (show && browser) {
+			setTimeout(() => {
+				const input = document.getElementById('quick-nav-input');
+				if (input) input.focus();
+			}, 100);
+		}
+	});
 </script>
 
 {#if show}

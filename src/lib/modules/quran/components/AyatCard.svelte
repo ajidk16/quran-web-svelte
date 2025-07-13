@@ -7,15 +7,23 @@
 	import { quranSettings } from '$modules/settings/services';
 	import { toggleBookmark, isBookmarked } from '$lib/modules/bookmarks/store';
 
-	export let ayat: any;
-	export let surah: QuranDataDto | null = null;
-	export let selectedAyat: number = 0;
-	export let playingAyat: number | null = null;
-	export let audioLoading: number | null = null;
+	const {
+		ayat,
+		surah = null,
+		selectedAyat = 0,
+		playingAyat = null,
+		audioLoading = null
+	}: {
+		ayat: any;
+		surah?: QuranDataDto | null;
+		selectedAyat?: number;
+		playingAyat?: number | null;
+		audioLoading?: number | null;
+	} = $props();
 
 	const dispatch = createEventDispatcher();
 
-	let showShareModal = false;
+	let showShareModal = $state(false);
 
 	function playAudio() {
 		dispatch('playAudio', { ayatNumber: ayat.nomorAyat, audioUrls: ayat.audio });
@@ -57,7 +65,7 @@
 	}
 
 	// Check if current ayat is bookmarked
-	$: isCurrentlyBookmarked = surah ? isBookmarked(surah.nomor, ayat.nomorAyat) : false;
+	const isCurrentlyBookmarked = $derived(surah ? isBookmarked(surah.nomor, ayat.nomorAyat) : false);
 </script>
 
 <div

@@ -5,29 +5,16 @@
 	import { t } from '$lib/utils/i18n';
 	import { cn } from '$lib/utils';
 
-	interface Props {
-		searchQuery?: string;
-		sortBy?: string;
-		sortOrder?: string;
-		filterBySurah?: string;
-	}
-
-	const { 
-		searchQuery: initialSearchQuery = '', 
-		sortBy: initialSortBy = 'timestamp', 
-		sortOrder: initialSortOrder = 'desc', 
-		filterBySurah: initialFilterBySurah = '' 
-	}: Props = $props();
+	export let searchQuery = '';
+	export let sortBy = 'timestamp'; // timestamp, surah, verse
+	export let sortOrder = 'desc'; // asc, desc
+	export let filterBySurah = '';
 
 	const dispatch = createEventDispatcher();
 
-	let searchQuery = $state(initialSearchQuery);
-	let sortBy = $state(initialSortBy);
-	let sortOrder = $state(initialSortOrder);
-	let filterBySurah = $state(initialFilterBySurah);
-	let showFilters = $state(false);
+	let showFilters = false;
 
-	const themeClasses = $derived(themeUtils.getThemeClasses($currentTheme));
+	$: themeClasses = themeUtils.getThemeClasses($currentTheme);
 
 	function handleSearch(event: Event) {
 		const target = event.target as HTMLInputElement;

@@ -1,8 +1,11 @@
 <script>
 	import { page } from '$app/stores';
-	
+	import ThemeToggle from './ThemeToggle.svelte';
+	import LanguageToggle from './LanguageToggle.svelte';
+	import { t } from '$lib/utils/i18n';
+
 	let mobileMenuOpen = $state(false);
-	
+
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
 	}
@@ -29,7 +32,7 @@
 					class:bg-emerald-800={$page.url.pathname === '/'}
 				>
 					<span class="text-base">🏠</span>
-					<span>Home</span>
+					<span>{$t('nav.home')}</span>
 				</a>
 				<a
 					href="/quran"
@@ -37,7 +40,7 @@
 					class:bg-emerald-800={$page.url.pathname === '/quran'}
 				>
 					<span class="text-base">📖</span>
-					<span>Al-Quran</span>
+					<span>{$t('nav.quran')}</span>
 				</a>
 				<a
 					href="/prayer-times"
@@ -45,7 +48,7 @@
 					class:bg-emerald-800={$page.url.pathname === '/prayer-times'}
 				>
 					<span class="text-base">🕌</span>
-					<span>Prayer Times</span>
+					<span>{$t('nav.prayer-times')}</span>
 				</a>
 				<a
 					href="/bookmarks"
@@ -53,7 +56,7 @@
 					class:bg-emerald-800={$page.url.pathname === '/bookmarks'}
 				>
 					<span class="text-base">🔖</span>
-					<span>Bookmarks</span>
+					<span>{$t('nav.bookmarks')}</span>
 				</a>
 				<a
 					href="/settings"
@@ -61,22 +64,17 @@
 					class:bg-emerald-800={$page.url.pathname === '/settings'}
 				>
 					<span class="text-base">⚙️</span>
-					<span>Settings</span>
+					<span>{$t('nav.settings')}</span>
 				</a>
 			</nav>
 
-			<!-- Search Bar (Desktop) -->
+			<!-- Controls and Search Bar (Desktop) -->
 			<div class="hidden lg:flex items-center space-x-4">
-				<div class="relative">
-					<input
-						type="text"
-						placeholder="Search Quran..."
-						class="bg-emerald-600 text-white placeholder-emerald-200 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-300 focus:bg-emerald-500 w-64"
-					/>
-					<div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-						<span class="text-emerald-200">🔍</span>
-					</div>
-				</div>
+				<!-- Theme Toggle -->
+				<ThemeToggle size="sm" />
+
+				<!-- Language Toggle -->
+				<LanguageToggle size="sm" />
 			</div>
 
 			<!-- Mobile menu button -->
@@ -88,9 +86,19 @@
 				>
 					<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						{#if mobileMenuOpen}
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							/>
 						{:else}
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 6h16M4 12h16M4 18h16"
+							/>
 						{/if}
 					</svg>
 				</button>
@@ -113,7 +121,7 @@
 						</div>
 					</div>
 				</div>
-				
+
 				<!-- Mobile Navigation Items -->
 				<nav class="space-y-1">
 					<a

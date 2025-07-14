@@ -8,6 +8,7 @@
 	import { cn } from '$lib/utils';
 
 	// Import components
+
 	import AyatCard from '../components/AyatCard.svelte';
 	import SearchModal from '../components/SearchModal.svelte';
 	import QuickNavModal from '../components/QuickNavModal.svelte';

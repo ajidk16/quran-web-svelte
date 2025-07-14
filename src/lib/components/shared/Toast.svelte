@@ -51,17 +51,19 @@
 		}
 	}
 
+	const IconComponent = $derived(getIcon());
+
 	const getColors = $derived(() => {
 		const base = `${themeClasses.bgSecondary} ${themeClasses.border} ${themeClasses.textPrimary}`;
 		switch (type) {
 			case 'success':
-				return `${base} border-green-200 bg-green-50 text-green-800`;
+				return `${base} border-green-200 bg-green-50 text-green-800 dark:text-green-200`;
 			case 'error':
-				return `${base} border-red-200 bg-red-50 text-red-800`;
+				return `${base} border-red-200 bg-red-50 text-red-800 dark:text-red-200`;
 			case 'bookmark':
-				return `${base} border-emerald-200 bg-emerald-50 text-emerald-800`;
+				return `${base} border-emerald-200 bg-emerald-50 text-emerald-800 dark:text-emerald-200`;
 			default:
-				return `${base} border-blue-200 bg-blue-50 text-blue-800`;
+				return `${base} border-blue-200 bg-blue-50 text-blue-800 dark:text-blue-200`;
 		}
 	});
 </script>
@@ -74,7 +76,7 @@
 	>
 		<div class="border rounded-lg shadow-lg backdrop-blur-sm {getColors} p-4">
 			<div class="flex items-start space-x-3">
-				<svelte:component this={getIcon()} size={20} class="mt-0.5 flex-shrink-0" />
+				<IconComponent size={20} class="mt-0.5 flex-shrink-0" />
 				<div class="flex-1 min-w-0">
 					<p class="font-semibold">{title}</p>
 					{#if message}
@@ -82,7 +84,7 @@
 					{/if}
 				</div>
 				<button
-					on:click={close}
+					onclick={close}
 					class="flex-shrink-0 opacity-60 hover:opacity-100 transition-opacity"
 				>
 					<X size={16} />

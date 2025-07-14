@@ -93,7 +93,7 @@
 				<nav class="space-y-1">
 					{#each navigation as item}
 						<a
-							href="/"
+							href={item.href}
 							onclick={() => (mobileMenuOpen = false)}
 							class="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 hover:bg-emerald-600 dark:hover:bg-emerald-700"
 							class:bg-emerald-800={$page.url.pathname === item.href}

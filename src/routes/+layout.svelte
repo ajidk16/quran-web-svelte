@@ -1,10 +1,17 @@
 <script>
+	import { onMount } from 'svelte';
 	let { children } = $props();
 	import '../app.css';
 	import Header from '$lib/components/shared/Header.svelte';
 	import Footer from '$lib/components/shared/Footer.svelte';
 	import { AdzanService } from '$lib/modules/settings';
 	import { currentTheme } from '$lib/utils/theme';
+	import { initializeBookmarks } from '$lib/modules/bookmarks/store';
+
+	// Initialize bookmarks on mount
+	onMount(() => {
+		initializeBookmarks();
+	});
 </script>
 
 <div

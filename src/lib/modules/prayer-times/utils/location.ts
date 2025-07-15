@@ -1,4 +1,5 @@
 import { browser } from '$app/environment';
+import type { CoordinateAddressDto } from '../types';
 
 // Interface for selected city
 export interface SelectedCity {
@@ -11,8 +12,10 @@ export interface UserLocation {
 	latitude: number;
 	longitude: number;
 	city: {
-		city: string;
-		country: string;
+		city: {
+			city: string;
+			country: string;
+		};
 	};
 }
 
@@ -25,7 +28,7 @@ export async function getUserLocation(): Promise<UserLocation | null> {
 	return new Promise<UserLocation | null>((resolve, reject) => {
 		navigator.geolocation.getCurrentPosition(
 			async (position) => {
-				const location: UserLocation = {
+				const location: any = {
 					latitude: position.coords.latitude,
 					longitude: position.coords.longitude,
 					city: {
@@ -37,6 +40,8 @@ export async function getUserLocation(): Promise<UserLocation | null> {
 				// Try to get city name from coordinates using reverse geocoding
 				try {
 					const cityName = await getCityFromCoordinates(location.latitude, location.longitude);
+
+					console.log('cek cityName', cityName);
 
 					if (cityName) {
 						location.city.city = cityName;
@@ -62,7 +67,10 @@ export async function getUserLocation(): Promise<UserLocation | null> {
 }
 
 // Get city name from coordinates using Nominatim (OpenStreetMap) API
-export async function getCityFromCoordinates(lat: number, lng: number): Promise<string | null> {
+export async function getCityFromCoordinates(
+	lat: number,
+	lng: number
+): Promise<CoordinateAddressDto | null> {
 	try {
 		const response = await fetch(
 			`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&accept-language=id`
@@ -75,15 +83,9 @@ export async function getCityFromCoordinates(lat: number, lng: number): Promise<
 		const data = await response.json();
 
 		console.log('Reverse geocoding response:', data);
+
 		// Extract city name from the response
 		const address = data.address;
-		const cityName =
-			address?.city ||
-			address?.town ||
-			address?.village ||
-			address?.municipality ||
-			address?.county ||
-			address?.state;
 
 		return address || null;
 	} catch (err) {

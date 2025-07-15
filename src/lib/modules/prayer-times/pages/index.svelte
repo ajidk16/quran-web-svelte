@@ -50,8 +50,10 @@
 
 		try {
 			const result = await prayerTimesStore.getUserLocationAndSetPrayer();
+			console.log('result', result.location.city.city.city);
+
 			if (result.location.city) {
-				showMessage(`✅ Lokasi ditemukan: ${result.location.city}`, 'success');
+				showMessage(`✅ Lokasi ditemukan: ${result.location.city.city.city}`, 'success');
 			} else {
 				showMessage('❌ Gagal mendapatkan lokasi.', 'error');
 			}
@@ -132,7 +134,7 @@
 							<MapPin size={24} />
 							<div>
 								<h2 class="text-xl font-semibold">
-									{`${$userLocation?.city?.city}, ${$userLocation?.city?.country}`}
+									{`${$userLocation?.city?.city.city}, ${$userLocation?.city?.city?.country}`}
 								</h2>
 								{#if $prayerScheduleData}
 									<p class="text-emerald-100 text-sm">

@@ -21,14 +21,12 @@ export const prayerTimesActions = {
 
 	// Fetch prayer times for a city
 	async fetchPrayerTimes(cityId: string) {
-		console.log('Fetching prayer times for cityId:', cityId);
 		isLoading.set(true);
 		error.set(null);
 
 		try {
 			const targetDate = new Date().toLocaleDateString('en-CA');
 			const schedule = await fetchJadwalHarian(cityId, targetDate);
-			console.log('Prayer schedule received:', schedule);
 
 			prayerSchedule.set(schedule);
 		} catch (err) {
@@ -72,7 +70,7 @@ export const prayerTimesActions = {
 				return null;
 			}
 
-			const results = await fetchLokasiPencarian(cityName);
+			const results = await fetchLokasiPencarian(cityName?.city || '');
 
 			return results?.data?.length > 0
 				? {
@@ -93,7 +91,6 @@ export const prayerTimesActions = {
 	}> {
 		try {
 			const location = await getUserLocation();
-			console.log('Got user location:', location);
 
 			if (!location) {
 				return { location: null, city: null };
@@ -102,7 +99,6 @@ export const prayerTimesActions = {
 			userLocation.set(location);
 
 			const nearestCity = await this.findNearestPrayerCity(location.latitude, location.longitude);
-			console.log('Found nearest city:', nearestCity);
 
 			if (nearestCity) {
 				await this.setCity(nearestCity);

@@ -9,6 +9,8 @@
 	import { hijriDate } from '$modules/prayer-times/api';
 	import { onMount } from 'svelte';
 
+	console.log('Footer component loaded', $userLocation);
+
 	const prayerTimes = $derived(
 		$prayerScheduleData
 			? [
@@ -172,7 +174,9 @@
 				<p class="text-slate-400 text-sm flex items-center">
 					<span class="mr-1">📍</span>
 					<span class="text-emerald-400"
-						>{`${$userLocation?.city?.city}, ${$userLocation?.city?.country}`}</span
+						>{$userLocation && $userLocation.city
+							? `${$userLocation?.city?.city?.city}, ${$userLocation?.city?.city?.country}`
+							: 'Unknown'}</span
 					>
 				</p>
 			</div>

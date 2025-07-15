@@ -42,3 +42,16 @@ export interface LokasiPencarianDto {
 export interface HijriDateDto {
 	data: string[];
 }
+
+export type CoordinateAddressDto = {
+	road?: string;
+	village?: string;
+	city?: string;
+	state?: string;
+	'ISO3166-2-lvl4'?: string;
+	region?: string;
+	'ISO3166-2-lvl3'?: string;
+	postcode?: string;
+	country?: string;
+	country_code?: string;
+};

@@ -7,7 +7,8 @@
 		prayerCurrentInfo,
 		prayerIsLoading,
 		prayerError,
-		prayerSearchResults
+		prayerSearchResults,
+		userLocation
 	} from '../store';
 	import type { SelectedCity } from '../utils/location';
 	import CitySearchModal from '../components/CitySearchModal.svelte';
@@ -88,17 +89,21 @@
 		const current = $prayerCurrentInfo.current?.name.toLowerCase();
 		const next = $prayerCurrentInfo.next?.name.toLowerCase();
 
-		if (prayer === current) return 'bg-emerald-100 border-2 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-600';
-		if (prayer === next) return 'bg-blue-100 border-2 border-blue-300 dark:bg-blue-900/30 dark:border-blue-600';
+		if (prayer === current)
+			return 'bg-emerald-100 border-2 border-emerald-300 dark:bg-emerald-900/30 dark:border-emerald-600';
+		if (prayer === next)
+			return 'bg-blue-100 border-2 border-blue-300 dark:bg-blue-900/30 dark:border-blue-600';
 		return themeClasses.bgSecondary;
 	}
 </script>
 
-<div class={cn("container mx-auto px-4 py-8", themeClasses.bgPrimary)}>
+<div class={cn('container mx-auto px-4 py-8', themeClasses.bgPrimary)}>
 	<div class="max-w-4xl mx-auto">
 		<!-- Header -->
 		<div class="flex items-center justify-between mb-6">
-			<h1 class={cn("text-3xl font-bold", themeClasses.textPrimary)}>🕌 {$t('nav.prayer-times')}</h1>
+			<h1 class={cn('text-3xl font-bold', themeClasses.textPrimary)}>
+				🕌 {$t('nav.prayer-times')}
+			</h1>
 			<div class="flex items-center gap-3">
 				<!-- Refresh Button -->
 				{#if $prayerSelectedCity}
@@ -106,19 +111,19 @@
 						onclick={() =>
 							$prayerSelectedCity && prayerTimesStore.fetchPrayerTimes($prayerSelectedCity.id)}
 						class={cn(
-							"flex items-center gap-2 px-4 py-2 rounded-lg transition-colors",
+							'flex items-center gap-2 px-4 py-2 rounded-lg transition-colors',
 							themeClasses.buttonPrimary
 						)}
 						disabled={$prayerIsLoading}
 					>
 						<RefreshCw size={16} class={$prayerIsLoading ? 'animate-spin' : ''} />
-						<span class="hidden sm:inline">Refresh</span>
+						<span class="hidden sm:inline">{$t('prayer_times.refreshButton')}</span>
 					</button>
 				{/if}
 			</div>
 		</div>
 
-		<div class={cn("rounded-lg shadow-md overflow-hidden", themeClasses.card)}>
+		<div class={cn('rounded-lg shadow-md overflow-hidden', themeClasses.card)}>
 			<!-- Location Header -->
 			<div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white p-6">
 				{#if $prayerSelectedCity}
@@ -126,7 +131,9 @@
 						<div class="flex items-center gap-3">
 							<MapPin size={24} />
 							<div>
-								<h2 class="text-xl font-semibold">{$prayerSelectedCity.lokasi}</h2>
+								<h2 class="text-xl font-semibold">
+									{`${$userLocation?.city?.city}, ${$userLocation?.city?.country}`}
+								</h2>
 								{#if $prayerScheduleData}
 									<p class="text-emerald-100 text-sm">
 										📅 {$prayerScheduleData.data.jadwal.tanggal}
@@ -139,7 +146,7 @@
 							class="flex items-center gap-2 px-4 py-2 bg-white/20 rounded-lg hover:bg-white/30"
 						>
 							<Search size={16} />
-							<span class="hidden sm:inline">Ubah Kota</span>
+							<span class="hidden sm:inline">{$t('prayer_times.changeCityButton')}</span>
 						</button>
 					</div>
 				{:else}
@@ -177,7 +184,12 @@
 
 			<!-- Current Prayer Info -->
 			{#if $prayerCurrentInfo}
-				<div class={cn("border-b p-4", "bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-700/50")}>
+				<div
+					class={cn(
+						'border-b p-4',
+						'bg-emerald-50 border-emerald-200 dark:bg-emerald-900/20 dark:border-emerald-700/50'
+					)}
+				>
 					<div class="flex items-center justify-center gap-4 text-center">
 						{#if $prayerCurrentInfo.current}
 							<div class="flex items-center gap-2">
@@ -203,13 +215,16 @@
 
 			<!-- Messages & States -->
 			{#if showLocationMessage}
-				<div class={cn("border-b p-4", themeClasses.border)}>
+				<div class={cn('border-b p-4', themeClasses.border)}>
 					<div
 						class={cn(
 							'rounded-lg p-3 text-center text-sm border',
-							locationStatus === 'success' && 'bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-700/50 dark:text-green-300',
-							locationStatus === 'error' && 'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/20 dark:border-red-700/50 dark:text-red-300',
-							!locationStatus && 'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-700/50 dark:text-blue-300'
+							locationStatus === 'success' &&
+								'bg-green-50 border-green-200 text-green-700 dark:bg-green-900/20 dark:border-green-700/50 dark:text-green-300',
+							locationStatus === 'error' &&
+								'bg-red-50 border-red-200 text-red-700 dark:bg-red-900/20 dark:border-red-700/50 dark:text-red-300',
+							!locationStatus &&
+								'bg-blue-50 border-blue-200 text-blue-700 dark:bg-blue-900/20 dark:border-blue-700/50 dark:text-blue-300'
 						)}
 					>
 						{locationMessage}
@@ -222,10 +237,15 @@
 					<div
 						class="animate-spin w-8 h-8 border-3 border-emerald-600 border-t-transparent rounded-full mx-auto mb-4"
 					></div>
-					<p class={cn("text-gray-600", themeClasses.textSecondary)}>Memuat jadwal sholat...</p>
+					<p class={cn('text-gray-600', themeClasses.textSecondary)}>Memuat jadwal sholat...</p>
 				</div>
 			{:else if $prayerError}
-				<div class={cn("m-6 border rounded-lg p-4", "bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-700/50")}>
+				<div
+					class={cn(
+						'm-6 border rounded-lg p-4',
+						'bg-red-50 border-red-200 dark:bg-red-900/20 dark:border-red-700/50'
+					)}
+				>
 					<div class="flex items-center gap-2 text-red-600 dark:text-red-400 mb-2">
 						❌ <span class="font-medium">Error</span>
 					</div>
@@ -233,7 +253,8 @@
 					<button
 						onclick={() =>
 							$prayerSelectedCity && prayerTimesStore.fetchPrayerTimes($prayerSelectedCity.id)}
-						class="text-sm text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 underline">Coba Lagi</button
+						class="text-sm text-red-700 dark:text-red-300 hover:text-red-900 dark:hover:text-red-100 underline"
+						>Coba Lagi</button
 					>
 				</div>
 			{:else if $prayerScheduleData}
@@ -254,13 +275,15 @@
 
 					<!-- Additional Times -->
 					{#if additionalTimes.length > 0}
-						<div class={cn("mt-6 pt-6 border-t", themeClasses.border)}>
-							<h3 class={cn("text-lg font-semibold mb-4 text-center", themeClasses.textPrimary)}>Waktu Tambahan</h3>
+						<div class={cn('mt-6 pt-6 border-t', themeClasses.border)}>
+							<h3 class={cn('text-lg font-semibold mb-4 text-center', themeClasses.textPrimary)}>
+								Waktu Tambahan
+							</h3>
 							<div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 								{#each additionalTimes as time}
-									<div class={cn("text-center p-3 rounded-lg", themeClasses.bgSecondary)}>
-										<h4 class={cn("font-medium mb-1", themeClasses.textSecondary)}>{time.name}</h4>
-										<p class={cn("text-lg font-semibold", themeClasses.textPrimary)}>{time.time}</p>
+									<div class={cn('text-center p-3 rounded-lg', themeClasses.bgSecondary)}>
+										<h4 class={cn('font-medium mb-1', themeClasses.textSecondary)}>{time.name}</h4>
+										<p class={cn('text-lg font-semibold', themeClasses.textPrimary)}>{time.time}</p>
 									</div>
 								{/each}
 							</div>
@@ -268,7 +291,7 @@
 					{/if}
 
 					<!-- Debug Info -->
-					<div class={cn("mt-6 pt-6 border-t", themeClasses.border)}>
+					<div class={cn('mt-6 pt-6 border-t', themeClasses.border)}>
 						<AdzanDebug />
 					</div>
 				</div>
@@ -276,8 +299,8 @@
 				<!-- Empty State -->
 				<div class="text-center py-12">
 					<div class="text-6xl mb-4">🕌</div>
-					<h2 class={cn("text-xl font-semibold mb-2", themeClasses.textPrimary)}>Selamat Datang</h2>
-					<p class={cn("mb-6", themeClasses.textSecondary)}>
+					<h2 class={cn('text-xl font-semibold mb-2', themeClasses.textPrimary)}>Selamat Datang</h2>
+					<p class={cn('mb-6', themeClasses.textSecondary)}>
 						Pilih lokasi Anda untuk melihat jadwal sholat yang akurat
 					</p>
 				</div>

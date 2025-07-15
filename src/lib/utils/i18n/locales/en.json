@@ -100,16 +100,16 @@
 		"cancel": "Cancel"
 	},
 	"quran": {
-		"description":"Read with ease and focus. Find peace in every sacred verse.",
+		"description": "Read with ease and focus. Find peace in every sacred verse.",
 		"surah": "Surah",
 		"verse": "Verse",
 		"verses": "verses",
 		"arabic_text": "Arabic Text",
 		"transliteration": "Transliteration",
 		"translation": "Translation",
-        "search": "Search",
-        "loading": "Loading surah list...",
-        "error": "An error occurred while loading the surah list."
+		"search": "Search",
+		"loading": "Loading surah list...",
+		"error": "An error occurred while loading the surah list."
 	},
 	"notification": {
 		"bookmark": {
@@ -120,6 +120,7 @@
 	},
 	"settings": {
 		"title": "Settings",
+		"description": "Customize your app preferences.",
 		"theme": "Theme",
 		"language": "Language",
 		"theme_options": {
@@ -130,6 +131,37 @@
 		"language_options": {
 			"id": "Bahasa Indonesia",
 			"en": "English"
+		},
+		"setting_adzan": {
+			"title": "Adzan Settings",
+			"subtitle": "Set adzan notifications and sound",
+			"enableAdzan": {
+				"label": "Enable Adzan",
+				"description": "Play adzan sound automatically"
+			},
+			"volume": "Volume",
+			"adzanTime": {
+				"label": "Adzan Time",
+				"option": "minutes before"
+			},
+			"browserNotification": {
+				"label": "Browser Notification",
+				"description": "Show notifications in the browser"
+			},
+			"mutedPrayers": {
+				"label": "Muted Prayers",
+				"subuh": "Fajr",
+				"dzuhur": "Dhuhr",
+				"ashar": "Asr",
+				"maghrib": "Maghrib",
+				"isya": "Isha"
+			},
+			"testAudio": {
+				"label": "Test Audio",
+				"testAdzanButton": "Test Adzan",
+				"testToneButton": "Test Tone",
+				"resetButton": "Reset"
+			}
 		}
 	},
 	"time": {
@@ -143,5 +175,68 @@
 		"tip1": "Try more general keywords",
 		"tip2": "Check keyword spelling",
 		"tip3": "Search by surah name or verse content"
+	},
+	"setting_quran": {
+		"title": "Quran Settings",
+		"subtitle": "Customize Quran display and audio",
+		"audioRecitation": {
+			"title": "Audio & Recitation",
+			"autoplay": {
+				"label": "Autoplay Recitation",
+				"description": "Automatically play verse recitation"
+			},
+			"selectedReciter": "Selected Reciter",
+			"favoriteReciters": "Favorite Reciters",
+			"playbackSpeed": "Playback Speed",
+			"speedNormal": "1x (Normal)",
+			"repeatMode": "Repeat Mode",
+			"noRepeat": "No Repeat"
+		},
+		"displayAndText": {
+			"title": "Display & Text",
+			"translationLanguage": "Translation Language",
+			"defaultTranslation": "Default Translation",
+			"showArabicText": "Show Arabic Text",
+			"showTranslation": "Show Translation",
+			"showTransliteration": "Show Transliteration",
+			"arabicTextSize": "Arabic Text Size",
+			"translationTextSize": "Translation Text Size",
+			"textSize": {
+				"medium": "Medium"
+			}
+		},
+		"resetButton": "Reset Quran Settings"
+	},
+	"setting_info": {
+		"title": "Settings Information",
+		"lastUpdated": "Last Updated:",
+		"version": "Version:",
+		"storage": "Storage:",
+		"dataSize": "Data Size:"
+	},
+	"prayer_times": {
+		"title": "Prayer Times",
+		"refreshButton": "Refresh",
+		"changeCityButton": "Change City",
+		"nextPrayerLabel": "Next:",
+		"debugInfo": {
+			"adzanEnabled": "Adzan Enabled",
+			"minutesBefore": "Minutes Before",
+			"volume": "Volume",
+			"notifications": "Notifications",
+			"lastPlayed": "Last Played",
+			"mutedPrayers": "Muted Prayers",
+			"nextPrayer": "Next Prayer",
+			"prayerTime": "Prayer Time",
+			"adzanTimeInMinutes": "Adzan Time (minutes)",
+			"minutesUntilAdzan": "Minutes Until Adzan",
+			"shouldPlayNow": "Should Play Now",
+			"forceTriggerButton": "Force Trigger",
+			"clearLastPlayedButton": "Clear Last Played",
+			"minBefore": "min before",
+			"valueNone": "None",
+			"valueNo": "NO",
+			"valueYes": "YES"
+		}
 	}
 }

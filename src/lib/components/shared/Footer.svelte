@@ -1,7 +1,13 @@
 <script>
-	import { prayerScheduleData, prayerNextCountdown } from '$modules/prayer-times/store';
+	import {
+		prayerScheduleData,
+		prayerNextCountdown,
+		userLocation
+	} from '$modules/prayer-times/store';
 	import { t } from '$lib/utils/i18n';
 	import { Facebook, Github, Twitter } from '@lucide/svelte';
+	import { hijriDate } from '$modules/prayer-times/api';
+	import { onMount } from 'svelte';
 
 	const prayerTimes = $derived(
 		$prayerScheduleData
@@ -14,6 +20,9 @@
 				]
 			: []
 	);
+
+	const date = new Date();
+	const currentYear = $derived(date.getFullYear());
 
 	const quickLinks = [
 		{ href: '/', label: $t('nav.home') },
@@ -36,9 +45,25 @@
 		{ href: 'https://twitter.com', icon: Twitter, label: 'Twitter' },
 		{ href: 'https://github.com', icon: Github, label: 'GitHub' }
 	];
+
+	let dateHijri = $state('');
+
+	const loadHijri = async () => {
+		try {
+			const hijri = await hijriDate();
+			dateHijri = hijri[1];
+		} catch (error) {
+			console.error('Failed to load Hijri date:', error);
+			return null;
+		}
+	};
+
+	onMount(() => {
+		loadHijri();
+	});
 </script>
 
-<footer class="bg-slate-800 text-white">
+<footer class="bg-slate-800 text-white dark:bg-slate-900">
 	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 		<div class="grid grid-cols-1 md:grid-cols-4 gap-8">
 			<!-- Logo and Description -->
@@ -47,7 +72,7 @@
 					<div class="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
 						<span class="text-white font-bold text-lg">ق</span>
 					</div>
-					<span class="font-bold text-xl text-emerald-400">QuranWeb</span>
+					<span class="font-bold text-xl text-emerald-400">IQRO</span>
 				</div>
 				<p class="text-slate-400 mb-4 max-w-md">
 					{$t('footer.description')}
@@ -136,17 +161,19 @@
 			class="mt-8 pt-8 border-t border-slate-700 flex flex-col md:flex-row md:items-center md:justify-between"
 		>
 			<p class="text-slate-400 text-sm">
-				© 2025 <span class="text-emerald-400 font-semibold">QuranWeb</span>. All rights reserved.
-				Made with <span class="text-emerald-400">❤️</span> for the Muslim community.
+				© {currentYear} <span class="text-emerald-400 font-semibold">IQRO</span>. All rights
+				reserved. Made with <span class="text-emerald-400">❤️</span> for the Muslim community.
 			</p>
 			<div class="mt-4 md:mt-0 flex items-center space-x-4">
 				<p class="text-slate-400 text-sm flex items-center">
 					<span class="mr-1">🌙</span>
-					Hijri: <span class="text-emerald-400">17 Rajab 1446</span>
+					Hijri: <span class="text-emerald-400 ml-1">{dateHijri}</span>
 				</p>
 				<p class="text-slate-400 text-sm flex items-center">
 					<span class="mr-1">📍</span>
-					<span class="text-emerald-400">Jakarta, Indonesia</span>
+					<span class="text-emerald-400"
+						>{`${$userLocation?.city?.city}, ${$userLocation?.city?.country}`}</span
+					>
 				</p>
 			</div>
 		</div>

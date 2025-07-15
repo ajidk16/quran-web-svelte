@@ -35,11 +35,6 @@
 	let playingAyat: number | null = $state(null);
 	let audioLoading: number | null = $state(null);
 
-	// Toast notification state
-	let showToast = $state(false);
-	let toastMessage = $state('');
-	let toastType: 'success' | 'error' | 'bookmark' = $state('bookmark');
-
 	const slug = page.params.slug;
 
 	// Theme classes
@@ -236,21 +231,6 @@
 		playAudio(event.detail.ayatNumber, event.detail.audioUrls);
 	const handleCopyAyat = (event: CustomEvent) => copyAyat(event.detail.ayat);
 
-	// Handle bookmark toggle
-	const handleBookmarkToggle = (event: CustomEvent) => {
-		const { ayat, added, surah: surahName } = event.detail;
-		toastType = 'bookmark';
-		if (added) {
-			toastMessage = `Ayat ${ayat} dari Surah ${surahName} telah ditambahkan ke bookmark`;
-		} else {
-			toastMessage = `Ayat ${ayat} dari Surah ${surahName} telah dihapus dari bookmark`;
-		}
-		showToast = true;
-	};
-
-	const handleToastClose = () => {
-		showToast = false;
-	};
 	const handleOpenSearchModal = () => (showSearchModal = true);
 	const handleOpenQuickNav = () => (showQuickNav = true);
 	const handleCloseSearchModal = () => (showSearchModal = false);
@@ -321,7 +301,6 @@
 							on:scrollToAyat={handleScrollToAyat}
 							on:playAudio={handlePlayAudio}
 							on:copyAyat={handleCopyAyat}
-							on:bookmarkToggled={handleBookmarkToggle}
 						/>
 					</div>
 				{/each}
@@ -390,7 +369,13 @@
 {/if}
 
 <!-- Toast Notification -->
-<Toast bind:show={showToast} type={toastType} title={toastMessage} on:close={handleToastClose} />
+<!-- <Toast
+	bind:show={showToast}
+	title={'Berhasil'}
+	type={toastType}
+	message={toastMessage}
+	on:close={handleToastClose}
+/> -->
 
 <style>
 	@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');

@@ -38,3 +38,7 @@ export interface LokasiPencarianDto {
 	};
 	data: LokasiData[];
 }
+
+export interface HijriDateDto {
+	data: string[];
+}

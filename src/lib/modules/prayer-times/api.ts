@@ -1,4 +1,4 @@
-import type { JadwalSholatHarianDto, LokasiPencarianDto } from './types';
+import type { HijriDateDto, JadwalSholatHarianDto, LokasiPencarianDto } from './types';
 
 const apiUrl = import.meta.env.VITE_API_MY_QURAN;
 
@@ -24,3 +24,15 @@ export async function fetchLokasiPencarian(kota: string) {
 
 	return await response.json();
 }
+
+export const hijriDate = async () => {
+	const response = await fetch(`${apiUrl}/cal/hijr`);
+
+	if (!response.ok) {
+		throw new Error(`Failed to fetch Hijri date: ${response.status}`);
+	}
+
+	const data = await response.json();
+
+	return data.data.date;
+};

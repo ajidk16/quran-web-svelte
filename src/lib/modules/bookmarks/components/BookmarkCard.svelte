@@ -168,7 +168,7 @@
 						></textarea>
 						<div class="flex gap-3">
 							<button
-								on:click={saveNote}
+								onclick={saveNote}
 								class={cn(
 									'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-md',
 									themeClasses.buttonPrimary
@@ -177,7 +177,7 @@
 								{$t('bookmarks.card.save')}
 							</button>
 							<button
-								on:click={cancelEdit}
+								onclick={cancelEdit}
 								class={cn(
 									'px-6 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200',
 									themeClasses.buttonSecondary
@@ -203,7 +203,7 @@
 							</div>
 							{#if showActions}
 								<button
-									on:click={handleEdit}
+									onclick={handleEdit}
 									class={cn('p-2 rounded-lg transition-colors', themeClasses.bgTertiary)}
 									title={$t('bookmarks.card.editNote')}
 								>
@@ -252,10 +252,10 @@
 		<div class={cn('px-6 py-5 border-t', themeClasses.bgSecondary, themeClasses.border)}>
 			<div class="flex gap-3">
 				<button
-					on:click={handleGoToVerse}
+					onclick={handleGoToVerse}
 					class={cn(
 						'flex-1 flex items-center justify-center gap-3 px-6 py-3 rounded-xl',
-						'text-sm font-semibold transition-all duration-200 shadow-md',
+						'text-sm font-semibold transition-all duration-200 shadow-md cursor-pointer',
 
 						themeClasses.buttonPrimary
 					)}
@@ -264,11 +264,11 @@
 					<span>{$t('bookmarks.card.goToVerse')}</span>
 				</button>
 				<button
-					on:click={handleDelete}
+					onclick={handleDelete}
 					class={cn(
 						'flex items-center gap-2 px-6 py-3 rounded-xl',
 						'text-sm font-semibold transition-all duration-200 shadow-md',
-						'bg-gradient-to-r from-red-500 to-red-600'
+						'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 cursor-pointer'
 					)}
 				>
 					<Trash2 size={18} class="transition-transform" />

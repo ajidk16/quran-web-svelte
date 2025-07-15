@@ -10,7 +10,10 @@ export interface SelectedCity {
 export interface UserLocation {
 	latitude: number;
 	longitude: number;
-	city?: string;
+	city: {
+		city: string;
+		country: string;
+	};
 }
 
 // Get user's current location using geolocation API
@@ -24,17 +27,19 @@ export async function getUserLocation(): Promise<UserLocation | null> {
 			async (position) => {
 				const location: UserLocation = {
 					latitude: position.coords.latitude,
-					longitude: position.coords.longitude
+					longitude: position.coords.longitude,
+					city: {
+						city: '',
+						country: ''
+					}
 				};
 
 				// Try to get city name from coordinates using reverse geocoding
 				try {
-					const cityName = await getCityFromCoordinates(
-						location.latitude,
-						location.longitude
-					);
+					const cityName = await getCityFromCoordinates(location.latitude, location.longitude);
+
 					if (cityName) {
-						location.city = cityName;
+						location.city.city = cityName;
 					}
 				} catch (err) {
 					console.warn('Failed to get city name from coordinates:', err);
@@ -69,6 +74,7 @@ export async function getCityFromCoordinates(lat: number, lng: number): Promise<
 
 		const data = await response.json();
 
+		console.log('Reverse geocoding response:', data);
 		// Extract city name from the response
 		const address = data.address;
 		const cityName =
@@ -79,7 +85,7 @@ export async function getCityFromCoordinates(lat: number, lng: number): Promise<
 			address?.county ||
 			address?.state;
 
-		return cityName || null;
+		return address || null;
 	} catch (err) {
 		console.error('Error in reverse geocoding:', err);
 		return null;

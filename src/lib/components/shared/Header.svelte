@@ -30,7 +30,7 @@
 					>
 						<span class="text-emerald-700 dark:text-emerald-800 font-bold text-lg">ق</span>
 					</div>
-					<span class="font-bold text-xl hidden sm:block">QuranWeb</span>
+					<span class="font-bold text-xl hidden sm:block">IQRO</span>
 				</a>
 			</div>
 

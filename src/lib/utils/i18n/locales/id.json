@@ -110,7 +110,7 @@
 		"translation": "Terjemahan",
 		"search": "Cari",
 		"loading": "Memuat daftar surah...",
-        "error": "Terjadi kesalahan saat memuat daftar surah."
+		"error": "Terjadi kesalahan saat memuat daftar surah."
 	},
 	"notification": {
 		"bookmark": {
@@ -121,6 +121,7 @@
 	},
 	"settings": {
 		"title": "Pengaturan",
+		"description": "Sesuaikan preferensi aplikasi Anda.",
 		"theme": "Tema",
 		"language": "Bahasa",
 		"theme_options": {
@@ -131,6 +132,37 @@
 		"language_options": {
 			"id": "Bahasa Indonesia",
 			"en": "English"
+		},
+		"setting_adzan": {
+			"title": "Pengaturan Adzan",
+			"subtitle": "Atur notifikasi dan suara adzan",
+			"enableAdzan": {
+				"label": "Aktifkan Adzan",
+				"description": "Putar suara adzan otomatis"
+			},
+			"volume": "Volume",
+			"adzanTime": {
+				"label": "Waktu Adzan",
+				"option": "menit sebelum"
+			},
+			"browserNotification": {
+				"label": "Notifikasi Browser",
+				"description": "Tampilkan notifikasi di browser"
+			},
+			"mutedPrayers": {
+				"label": "Sholat yang Dibisukan",
+				"subuh": "Subuh",
+				"dzuhur": "Dzuhur",
+				"ashar": "Ashar",
+				"maghrib": "Maghrib",
+				"isya": "Isya"
+			},
+			"testAudio": {
+				"label": "Test Audio",
+				"testAdzanButton": "Test Adzan",
+				"testToneButton": "Test Tone",
+				"resetButton": "Reset"
+			}
 		}
 	},
 	"time": {
@@ -144,5 +176,74 @@
 		"tip1": "Coba kata kunci yang berbeda",
 		"tip2": "Gunakan kata kunci yang lebih umum",
 		"tip3": "Periksa ejaan kata kunci"
+	},
+	"setting_quran": {
+		"title": "Pengaturan Al-Quran",
+		"subtitle": "Kustomisasi tampilan dan audio Al-Quran",
+		"audioRecitation": {
+			"title": "Audio & Pelantunan",
+			"autoplay": {
+				"label": "Putar Otomatis Pelantunan",
+				"description": "Putar lantunan ayat secara otomatis"
+			},
+			"selectedReciter": "Qari Terpilih",
+			"favoriteReciters": "Qari Favorit",
+			"playbackSpeed": "Kecepatan Pemutaran",
+			"speedNormal": "1x (Normal)",
+			"repeatMode": "Mode Ulang",
+			"noRepeat": "Jangan Ulang"
+		},
+		"displayAndText": {
+			"title": "Tampilan & Teks",
+			"translationLanguage": "Bahasa Terjemahan",
+			"defaultTranslation": "Terjemahan Standar",
+			"showArabicText": "Tampilkan Teks Arab",
+			"showTranslation": "Tampilkan Terjemahan",
+			"showTransliteration": "Tampilkan Transliterasi",
+			"arabicTextSize": "Ukuran Teks Arab",
+			"translationTextSize": "Ukuran Teks Terjemahan",
+			"textSize": {
+				"medium": "Sedang"
+			}
+		},
+		"resetButton": "Atur Ulang Pengaturan Quran"
+	},
+	"setting_info": {
+		"title": "Informasi Pengaturan",
+		"lastUpdated": "Terakhir Diupdate:",
+		"version": "Version:",
+		"storage": "Storage:",
+		"dataSize": "Data Size:"
+	},
+	"prayer_times": {
+		"title": "Prayer Times",
+		"refreshButton": "Segarkan",
+		"changeCityButton": "Ubah Kota",
+		"nextPrayerLabel": "Selanjutnya:",
+		"additionalTimes": {
+			"title": "Waktu Tambahan",
+			"imsak": "Imsak",
+			"sunrise": "Terbit",
+			"dhuha": "Dhuha"
+		},
+		"debugInfo": {
+			"adzanEnabled": "Adzan Diaktifkan",
+			"minutesBefore": "Menit Sebelumnya",
+			"volume": "Volume",
+			"notifications": "Notifikasi",
+			"lastPlayed": "Terakhir Diputar",
+			"mutedPrayers": "Sholat Dibisukan",
+			"nextPrayer": "Sholat Berikutnya",
+			"prayerTime": "Waktu Sholat",
+			"adzanTimeInMinutes": "Waktu Adzan (menit)",
+			"minutesUntilAdzan": "Menit Hingga Adzan",
+			"shouldPlayNow": "Harus Diputar Sekarang",
+			"forceTriggerButton": "Picu Paksa",
+			"clearLastPlayedButton": "Hapus Terakhir Diputar",
+			"minBefore": "menit sebelum",
+			"valueNone": "Tidak Ada",
+			"valueNo": "TIDAK",
+			"valueYes": "YA"
+		}
 	}
 }

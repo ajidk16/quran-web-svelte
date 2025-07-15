@@ -99,7 +99,7 @@
 
 	function handleGoToVerse(event: CustomEvent<{ surah: number; verse: number }>) {
 		const { surah, verse } = event.detail;
-		goto(`/quran/${surah}?verse=${verse}`);
+		goto(`/quran/${surah}#ayat-${verse}`);
 	}
 
 	function handleSearch(event: CustomEvent<string>) {

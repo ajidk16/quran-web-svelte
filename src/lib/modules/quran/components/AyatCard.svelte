@@ -89,18 +89,12 @@
 
 		const wasAdded = toggleBookmark(bookmarkData);
 
-		// Show toast notification
-		bookmarkToastMessage = wasAdded
-			? `Ayat ${ayat.nomorAyat} ditambahkan ke bookmark`
-			: `Ayat ${ayat.nomorAyat} dihapus dari bookmark`;
 		showBookmarkToast = true;
 
-		// Show feedback to user
-		dispatch('bookmarkToggled', {
-			ayat: ayat.nomorAyat,
-			added: wasAdded,
-			surah: surah.namaLatin
-		});
+		// Show toast notification
+		bookmarkToastMessage = wasAdded
+			? `QS. ${surah.namaLatin} ayat ${ayat.nomorAyat} ditambahkan ke bookmark`
+			: `QS. ${surah.namaLatin} ayat ${ayat.nomorAyat} dihapus dari bookmark`;
 	}
 
 	const listIcon = [

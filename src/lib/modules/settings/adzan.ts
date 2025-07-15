@@ -18,13 +18,13 @@ export const adzanInfo = derived(
 			{ name: 'Ashar', time: jadwal.ashar },
 			{ name: 'Maghrib', time: jadwal.maghrib },
 			{ name: 'Isya', time: jadwal.isya }
-		].filter(prayer => !$adzanSettings.mutedPrayers.includes(prayer.name));
+		].filter((prayer) => !$adzanSettings.mutedPrayers.includes(prayer.name));
 
 		const prayerTimes = prayers.map((prayer) => {
 			const [hours, minutes] = prayer.time.split(':').map(Number);
 			const prayerMinutes = hours * 60 + minutes;
 			const adzanMinutes = prayerMinutes - $adzanSettings.minutesBefore;
-			
+
 			return {
 				...prayer,
 				minutes: prayerMinutes,
@@ -36,7 +36,7 @@ export const adzanInfo = derived(
 		for (const prayer of prayerTimes) {
 			const adzanWindowEnd = prayer.adzanTime + 10; // 10-minute window
 			const shouldPlayNow = currentTime >= prayer.adzanTime && currentTime < adzanWindowEnd;
-			
+
 			if (shouldPlayNow) {
 				console.log(`🕌 ADZAN WINDOW ACTIVE! ${prayer.name} at ${currentTime}`);
 				return {
@@ -63,9 +63,9 @@ export const adzanInfo = derived(
 		}
 
 		// Tomorrow's Subuh
-		const subuhPrayer = prayerTimes.find(p => p.name === 'Subuh');
+		const subuhPrayer = prayerTimes.find((p) => p.name === 'Subuh');
 		if (subuhPrayer) {
-			const tomorrowAdzanTime = subuhPrayer.adzanTime + (24 * 60);
+			const tomorrowAdzanTime = subuhPrayer.adzanTime + 24 * 60;
 			return {
 				prayer: 'Subuh',
 				prayerTime: subuhPrayer.time,
@@ -90,31 +90,28 @@ export async function playAdzan(prayerName: string) {
 		}
 
 		const settings = get(adzanSettings);
-		
+
 		// Show notification
-		showNotification(
-			`🕌 Waktu ${prayerName}`,
-			`Adzan ${prayerName} akan segera berkumandang`
-		);
-		
+		showNotification(`🕌 Waktu ${prayerName}`, `Adzan ${prayerName} akan segera berkumandang`);
+
 		// Handle test calls
 		if (prayerName === 'Test') {
 			console.log('🧪 Playing test adzan...');
 			await playTestTone();
 			return;
 		}
-		
+
 		// Set volume and play
 		audio.volume = settings.volume;
-		
+
 		// Error handler for missing audio file
 		const handleError = () => {
 			console.warn('⚠️ Audio file not found, using test tone');
 			playTestTone();
 		};
-		
+
 		audio.addEventListener('error', handleError, { once: true });
-		
+
 		try {
 			const playPromise = audio.play();
 			if (playPromise !== undefined) {
@@ -125,17 +122,20 @@ export async function playAdzan(prayerName: string) {
 			console.warn('Failed to play audio file, using test tone');
 			await playTestTone();
 		}
-		
-	} catch (error: any) {
+	} catch (error: unknown) {
 		console.error('Error playing adzan:', error);
-		
+
 		try {
 			await playTestTone();
 		} catch (fallbackError) {
-			if (error.name === 'NotAllowedError') {
-				alert('🔇 Browser blocked auto audio.\n\nPlease click test audio button after interacting with this page.');
+			if (error instanceof Error && error.name === 'NotAllowedError') {
+				alert(
+					'🔇 Browser blocked auto audio.\n\nPlease click test audio button after interacting with this page.'
+				);
 			} else {
-				alert(`❌ Error playing adzan: ${error.message}`);
+				alert(
+					`❌ Error playing adzan: ${error instanceof Error ? error.message : 'Unknown error'}`
+				);
 			}
 		}
 	}
@@ -145,19 +145,19 @@ export async function playAdzan(prayerName: string) {
 export function checkAndPlayAdzan() {
 	const info = get(adzanInfo);
 	const settings = get(adzanSettings);
-	
+
 	if (!info || !info.shouldPlayNow || !settings.enabled) return;
 
 	const today = new Date().toDateString();
 	const lastPlayedKey = `${today}-${info.prayer}`;
-	
+
 	// Check if already played today
 	if (settings.lastPlayedDate === lastPlayedKey) return;
 
 	console.log(`🕌 TRIGGERING ADZAN for ${info.prayer}`);
-	
+
 	playAdzan(info.prayer);
-	
+
 	// Update last played date
 	import('./services').then(({ updateAdzanSettings }) => {
 		updateAdzanSettings({ lastPlayedDate: lastPlayedKey });

@@ -7,7 +7,7 @@
 		"settings": "Settings"
 	},
 	"beranda": {
-		"welcome": "Welcome to Quran's Web",
+		"welcome": "Welcome to IQROO",
 		"description": "A web application for reading the Quran easily and comfortably.",
 		"title_1": "Complete Quran",
 		"detail_1": "Access all 114 chapters with beautiful Arabic text and translations.",
@@ -18,7 +18,7 @@
 		"today_verse": "Verse of the Day"
 	},
 	"footer": {
-		"description": "Thank you for using Quran's Web. We hope this application helps you in your Quran reading journey.",
+		"description": "Thank you for using IQROO. We hope this application helps you in your Quran reading journey.",
 		"contact": "Contact Us",
 		"privacy_policy": "Privacy Policy",
 		"terms_of_service": "Terms of Service",

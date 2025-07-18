@@ -14,6 +14,7 @@ import {
 // Store actions
 export const prayerTimesActions = {
 	// Set selected city and fetch prayer times
+
 	async setCity(city: SelectedCity) {
 		selectedCity.set(city);
 		await this.fetchPrayerTimes(city.id);

@@ -50,7 +50,7 @@
 
 		try {
 			const result = await prayerTimesStore.getUserLocationAndSetPrayer();
-			console.log('result', result.location.city.city.city);
+			// console.log('result', result.location.city.city.city);
 
 			if (result.location.city) {
 				showMessage(`✅ Lokasi ditemukan: ${result.location.city.city.city}`, 'success');
@@ -97,6 +97,8 @@
 			return 'bg-blue-100 border-2 border-blue-300 dark:bg-blue-900/30 dark:border-blue-600';
 		return themeClasses.bgSecondary;
 	}
+
+	console.log('userLocation', $userLocation);
 </script>
 
 <div class={cn('container mx-auto px-4 py-8', themeClasses.bgPrimary)}>

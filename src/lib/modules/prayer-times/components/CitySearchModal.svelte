@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { MapPin, Search, Navigation } from '@lucide/svelte';
+	import { MapPin, Navigation } from '@lucide/svelte';
 	import type { SelectedCity } from '../utils/location';
 	import type { LokasiData } from '../types';
 
@@ -27,8 +27,6 @@
 		onGetLocation
 	}: Props = $props();
 
-	console.log('searchResults:', searchResults);
-
 	let searchInput = $state<HTMLInputElement>();
 
 	function handleKeydown(event: KeyboardEvent) {
@@ -47,7 +45,9 @@
 
 {#if show}
 	<div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-		<div class="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[80vh] overflow-hidden">
+		<div
+			class="bg-white dark:bg-gray-800 rounded-xl shadow-2xl w-full max-w-md max-h-[80vh] overflow-hidden"
+		>
 			<div class="bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-6 py-4">
 				<h3 class="text-lg font-semibold">🔍 Cari Kota</h3>
 			</div>
@@ -58,7 +58,7 @@
 						bind:this={searchInput}
 						bind:value={searchKeyword}
 						placeholder="Masukkan nama kota..."
-						class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
+						class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500"
 						onkeydown={handleKeydown}
 					/>
 					<button
@@ -72,21 +72,23 @@
 
 				<!-- Search Results -->
 				{#if searchResults.length > 0}
-					<div class="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
+					<div
+						class="max-h-60 overflow-y-auto border border-gray-200 dark:border-gray-600 rounded-lg"
+					>
 						{#each searchResults as city}
 							<button
 								onclick={() => onSelectCity(city)}
-								class="w-full text-left px-4 py-3 hover:bg-emerald-50 border-b border-gray-100 last:border-b-0 transition-colors"
+								class="w-full text-left px-4 py-3 hover:bg-emerald-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-600 last:border-b-0 transition-colors text-gray-900 dark:text-white"
 							>
 								<div class="flex items-center gap-2">
-									<MapPin size={16} class="text-gray-400" />
+									<MapPin size={16} class="text-gray-400 dark:text-gray-500" />
 									<span>{city.lokasi}</span>
 								</div>
 							</button>
 						{/each}
 					</div>
 				{:else if searchKeyword && !isLoading}
-					<div class="text-center py-4 text-gray-500">
+					<div class="text-center py-4 text-gray-500 dark:text-gray-400">
 						Tidak ada hasil untuk "{searchKeyword}"
 					</div>
 				{/if}

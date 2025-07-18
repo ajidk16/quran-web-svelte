@@ -10,7 +10,7 @@
 	onMount(() => {
 		// Enable audio autoplay on user interaction
 		enableAudioAutoplay();
-		
+
 		// Start service if city is selected
 		if ($prayerSelectedCity) {
 			startAdzanService();
@@ -34,30 +34,27 @@
 
 	function startAdzanService() {
 		if (isRunning) return;
-		
+
 		isRunning = true;
-		
+
 		// Check immediately
 		checkAndPlayAdzan();
-		
+
 		// Schedule recursive checks
 		scheduleNextCheck();
-		
-		console.log('🕌 Adzan service started (from Settings module)');
 	}
 
 	function scheduleNextCheck() {
 		if (!isRunning) return;
-		
+
 		timeoutId = setTimeout(() => {
-			// Check if tab is active or close to adzan time
 			const info = $adzanInfo;
 			const shouldCheck = !document.hidden || (info && info.minutesUntilAdzan <= 2);
-			
+
 			if (shouldCheck) {
 				checkAndPlayAdzan();
 			}
-			
+
 			// Schedule next check
 			scheduleNextCheck();
 		}, 10000); // 10 seconds
@@ -65,7 +62,7 @@
 
 	function stopAdzanService() {
 		isRunning = false;
-		
+
 		if (timeoutId) {
 			clearTimeout(timeoutId);
 			timeoutId = null;
